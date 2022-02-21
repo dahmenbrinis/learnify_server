@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/{file}', [ImageController::class, 'getImage']);
+Route::get('/', [ImageController::class, 'getImage2']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::apiResource('/room', RoomController::class );

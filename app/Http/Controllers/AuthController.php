@@ -17,13 +17,11 @@ class AuthController extends Controller
 //            'device_name' => 'required',
         ]);
 
-
-
         if (!Auth::attempt($credentials)) {
-            return response()->json(['message'=>'Credentials not match'],401);
+            return response(['message'=>'Credentials not match'],500);
         }
-
-        return response()->json(['token'=>auth()->user()->createToken('API Token')->plainTextToken]);
+        $user = auth()->user();
+        return array_merge($user->toArray(),['token'=>$user->createToken('tokens')->plainTextToken]);
     }
 
     // this method signs out users by removing tokens
@@ -42,17 +40,16 @@ class AuthController extends Controller
         $attr = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed'
+            'password' => 'required|string|min:6',
+            'type'=>'required',
         ]);
 
         $user = User::create([
             'name' => $attr['name'],
-            'password' => bcrypt($attr['password']),
+            'password' => Hash::make($attr['password']),
             'email' => $attr['email']
         ]);
-
-        return $this->success([
-            'token' => $user->createToken('tokens')->plainTextToken
-        ]);
+        Auth::attempt($attr);
+        return array_merge($user->toArray(),['token'=>$user->createToken('tokens')->plainTextToken]);
     }
 }
