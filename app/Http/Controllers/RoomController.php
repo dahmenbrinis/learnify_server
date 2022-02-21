@@ -26,13 +26,12 @@ class RoomController extends Controller
         $x = Auth::user()
             ->rooms()
             ->orWhere('visibility','=',1)->count();
-        $myRooms =Auth::user()->rooms->pluck('id');
+        $myRooms =Auth::user()->rooms;
 //$y = Room::query()->whereNotIn('id',$myRooms)->where('visibility','=',1)->orWhereIn('id',$myRooms)->count();
-        return Room::query()
-            ->WhereIn('id',$myRooms)
-            ->orderByDesc('id')
+        return $myRooms
             ->orWhere('visibility','=',1)
-            ->whereNotIn('id',$myRooms)
+            ->whereNotIn('id',$myRooms->pluck('id'))
+            ->orderByDesc('id')
             ->paginate(12)
             ->items();
 
