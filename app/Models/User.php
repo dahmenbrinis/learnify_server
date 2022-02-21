@@ -45,6 +45,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+
     public function getTypeNameAttribute(): string
     {
         return self::$typeNames[$this->type];

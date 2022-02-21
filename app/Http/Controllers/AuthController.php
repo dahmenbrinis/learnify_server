@@ -44,11 +44,7 @@ class AuthController extends Controller
             'type'=>'required',
         ]);
 
-        $user = User::create([
-            'name' => $attr['name'],
-            'password' => Hash::make($attr['password']),
-            'email' => $attr['email']
-        ]);
+        $user = User::create($attr);
         Auth::attempt($attr);
         return array_merge($user->toArray(),['token'=>$user->createToken('tokens')->plainTextToken]);
     }
