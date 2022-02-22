@@ -16,7 +16,7 @@ class RoomPolicy
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function askQuestion(User $user, Room $room)
+    public function ask(User $user, Room $room)
     {
         if(!$user) return  false ;
         return  true ;

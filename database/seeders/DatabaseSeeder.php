@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(100)->create();
         $seeder = new RoomSeeder();
         $seeder->run();
+        (new QuestionSeeder())->run();
     }
 
     private function create_levels()
