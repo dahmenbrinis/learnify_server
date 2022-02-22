@@ -20,14 +20,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-//        Room::all()->filter(function (Room $room) {
-//            return Auth::user()->can('view',$room);
-//        });
-        $x = Auth::user()
-            ->rooms()
-            ->orWhere('visibility','=',1)->count();
         $myRooms =Auth::user()->rooms->pluck('id');
-//$y = Room::query()->whereNotIn('id',$myRooms)->where('visibility','=',1)->orWhereIn('id',$myRooms)->count();
         return Room::query()
             ->whereNotIn('id',$myRooms)
             ->Where('visibility','=',1)
@@ -35,16 +28,6 @@ class RoomController extends Controller
             ->orderByDesc('id')
             ->paginate(12)
             ->items();
-
-//        return Auth::user()
-//            ->rooms()
-//            ->orWhere('visibility','=',1)
-//            ->rooms()->distinct()
-////            ->whereNotIn('id',Auth::user()->rooms)
-//            ->orderByDesc('id')
-//            ->paginate(12)
-//            ->items();
-//        return Room::all();
     }
 
     /**

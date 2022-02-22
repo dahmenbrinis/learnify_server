@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RoomController;
+use App\Models\Room;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/{file}', [ImageController::class, 'getImage']);
-Route::get('/', [ImageController::class, 'getImage2']);
+Route::get('/', function (){
+    return Room::query()->paginate(1)->items();
+});
 
 Route::apiResource('/room', RoomController::class );
