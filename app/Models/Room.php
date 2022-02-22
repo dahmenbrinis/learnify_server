@@ -56,7 +56,7 @@ class Room extends Model
 
     public function getQuestionsCountAttribute(): int
     {
-        return 50;
+        return $this->questions()->count();
     }
 
     public function getAnswersCountAttribute(): int
