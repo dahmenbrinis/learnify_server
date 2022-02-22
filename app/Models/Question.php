@@ -9,10 +9,12 @@ class Question extends Model
 {
     use HasFactory;
 
-    public function user(){
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
-    public function room(){
+    public function room(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Room::class);
     }
     public function getVoteCountAttribute(){
