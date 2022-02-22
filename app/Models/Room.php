@@ -16,10 +16,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Room extends Model
 {
-    static $permissions = ['can_viewAny' , 'can_view' , 'can_update' , 'can_delete' , 'can_ask' ];
-    public static $PrivateRoom = 0;
-    public static $PublicRoom = 1;
-    public static $Visibilities = [0 => 'Private', 1 => 'Public'];
+    static array $permissions = ['can_viewAny' , 'can_view' , 'can_update' , 'can_delete' , 'can_ask' ];
+    public static int $PrivateRoom = 0;
+    public static int $PublicRoom = 1;
+    public static array $Visibilities = [0 => 'Private', 1 => 'Public'];
     use HasFactory;
 
     protected $guarded = [];
