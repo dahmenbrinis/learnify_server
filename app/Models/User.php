@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,9 +12,10 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    public static $Teacher = 0 ;
-    public static $Student = 1 ;
-    public static $typeNames = [0=>'Teacher' , 1=>'Student'] ;
+
+    public static $Teacher = 0;
+    public static $Student = 1;
+    public static $typeNames = [0 => 'Teacher', 1 => 'Student'];
     /**
      * The attributes that are mass assignable.
      *
@@ -46,15 +48,19 @@ class User extends Authenticatable
     ];
 
 
-
     public function getTypeNameAttribute(): string
     {
         return self::$typeNames[$this->type];
     }
 
 
-    public function rooms(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function rooms(): BelongsToMany
     {
         return $this->belongsToMany(Room::class);
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
     }
 }
