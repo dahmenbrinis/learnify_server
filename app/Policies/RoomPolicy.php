@@ -18,12 +18,13 @@ class RoomPolicy
      */
     public function askQuestion(User $user, Room $room)
     {
+        if(!$user) return  false ;
         return  true ;
     }
 
     public function join(User $user, Room $room)
     {
-//        dd($user->rooms()->get()->contains($room->id));
+        if(!$user) return  false ;
         return  $user->cannot('view',$room);
     }
     /**
@@ -34,6 +35,7 @@ class RoomPolicy
      */
     public function viewAny(User $user)
     {
+        if(!$user) return  false ;
         return true ;
     }
 
@@ -47,7 +49,7 @@ class RoomPolicy
      */
     public function view(User $user, Room $room)
     {
-//        dd($user->rooms()->get()->contains($room->id));
+        if(!$user) return  false ;
         return  $user->rooms->contains($room);
     }
 
@@ -59,7 +61,7 @@ class RoomPolicy
      */
     public function create(User $user)
     {
-//        dd($user->type ===User::$Teacher );
+        if(!$user) return  false ;
         return $user->type === User::$Teacher;
     }
 
@@ -72,6 +74,7 @@ class RoomPolicy
      */
     public function update(User $user, Room $room)
     {
+        if(!$user) return  false ;
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 
@@ -84,6 +87,7 @@ class RoomPolicy
      */
     public function delete(User $user, Room $room)
     {
+        if(!$user) return  false ;
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 
@@ -96,6 +100,7 @@ class RoomPolicy
      */
     public function restore(User $user, Room $room)
     {
+        if(!$user) return  false ;
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 
@@ -108,6 +113,7 @@ class RoomPolicy
      */
     public function forceDelete(User $user, Room $room)
     {
+        if(!$user) return  false ;
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 }
