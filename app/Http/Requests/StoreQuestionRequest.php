@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Question;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreQuestionRequest extends FormRequest
@@ -11,9 +12,9 @@ class StoreQuestionRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return auth()->user()->can('create', [Question::class, $this->room]);
     }
 
     /**
@@ -21,10 +22,11 @@ class StoreQuestionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'title' => 'required|min:3',
+            'description' => 'required|min:3',
         ];
     }
 }

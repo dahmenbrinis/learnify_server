@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Question;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateQuestionRequest extends FormRequest
@@ -11,9 +12,9 @@ class UpdateQuestionRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return auth()->user()->can('update', Question::class);
     }
 
     /**
@@ -21,10 +22,11 @@ class UpdateQuestionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'title' => 'sometimes|min:3',
+            'description' => 'sometimes|min:3',
         ];
     }
 }
