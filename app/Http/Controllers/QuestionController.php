@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Question;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\UpdateQuestionRequest;
+use App\Models\Question;
 use App\Models\Room;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Response;
 
 class QuestionController extends Controller
@@ -13,7 +14,7 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function index(Room $room)
     {
@@ -24,6 +25,7 @@ class QuestionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreQuestionRequest $request
+     * @param Room $room
      * @return Response
      */
     public function store(StoreQuestionRequest $request,Room $room)
@@ -34,7 +36,7 @@ class QuestionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Question  $question
+     * @param Question $question
      * @return Response
      */
     public function show(Question $question)
@@ -45,8 +47,8 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateQuestionRequest  $request
-     * @param  \App\Models\Question  $question
+     * @param UpdateQuestionRequest $request
+     * @param Question $question
      * @return Response
      */
     public function update(UpdateQuestionRequest $request, Question $question)
@@ -57,7 +59,7 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Question  $question
+     * @param Question $question
      * @return Response
      */
     public function destroy(Question $question)

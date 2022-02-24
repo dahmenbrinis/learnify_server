@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Level;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,7 +24,7 @@ class DatabaseSeeder extends Seeder
          ]);
         $user->save();
         $user->createToken('tokens');
-        \App\Models\User::factory(20)->create();
+        User::factory(20)->create();
         $seeder = new RoomSeeder();
         $seeder->run();
 

@@ -7,8 +7,9 @@ use App\Http\Requests\LeaveRoomRequest;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Room;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -51,10 +52,10 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Response
+     * @param int $id
+     * @return Builder[]|Collection|Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         return Room::find($id);
     }
@@ -63,6 +64,7 @@ class RoomController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateRoomRequest $request
+     * @param Room $room
      * @return Room
      */
     public function update(UpdateRoomRequest $request, Room $room)

@@ -6,6 +6,7 @@ use App\Models\Question;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class QuestionPolicy
 {
@@ -14,8 +15,9 @@ class QuestionPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Room $room
+     * @return Response|bool
      */
     public function viewAny(User $user,Room $room)
     {
@@ -25,20 +27,22 @@ class QuestionPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Question $question
+     * @param Room $room
+     * @return bool
      */
-    public function view(User $user, Question $question,Room $room)
+    public function view(User $user, Question $question, Room $room): bool
     {
-        return  $user->can('view',$room);
+        return $user->can('view', $room);
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Room $room
+     * @return Response|bool
      */
     public function create(User $user ,Room $room)
     {
@@ -48,48 +52,52 @@ class QuestionPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Question $question
+     * @param Room $room
+     * @return bool
      */
-    public function update(User $user, Question $question,Room $room)
+    public function update(User $user, Question $question, Room $room): bool
     {
-        return  $user->questions->contains($question);
+        return $user->questions->contains($question);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Question $question
+     * @param Room $room
+     * @return bool
      */
-    public function delete(User $user, Question $question,Room $room)
+    public function delete(User $user, Question $question, Room $room): bool
     {
-        return  $user->questions->contains($question);
+        return $user->questions->contains($question);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Question $question
+     * @param Room $room
+     * @return bool
      */
-    public function restore(User $user, Question $question,Room $room)
+    public function restore(User $user, Question $question, Room $room): bool
     {
-        return  $user->questions->contains($question);
+        return $user->questions->contains($question);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Question $question
+     * @param Room $room
+     * @return Response|bool
      */
-    public function forceDelete(User $user, Question $question,Room $room)
+    public function forceDelete(User $user, Question $question, Room $room): bool
     {
-        return  $user->questions->contains($question);
+        return $user->questions->contains($question);
     }
 }

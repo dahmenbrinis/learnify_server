@@ -14,14 +14,16 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @property Collection $questions
  * @property Collection<Room> $rooms
+ * @property int $type
+ * @method static create(array $attr)
  */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public static $Teacher = 0;
-    public static $Student = 1;
-    public static $typeNames = [0 => 'Teacher', 1 => 'Student'];
+    public static int $Teacher = 0;
+    public static int $Student = 1;
+    public static array $typeNames = [0 => 'Teacher', 1 => 'Student'];
     /**
      * The attributes that are mass assignable.
      *
@@ -70,7 +72,7 @@ class User extends Authenticatable
         return $this->hasMany(Question::class);
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }

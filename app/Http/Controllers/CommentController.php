@@ -19,8 +19,6 @@ class CommentController extends Controller
 
     public function index(Question $question)
     {
-//        Gate::authorize('view',[$question,$question->room]);
-        $comments = $question->comments()->with('user')->paginate(12);
-        return $comments;
+        return $question->comments()->with('user')->paginate(12);
     }
 }

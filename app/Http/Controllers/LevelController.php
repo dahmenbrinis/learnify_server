@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Level;
 use App\Http\Requests\StorelevelRequest;
 use App\Http\Requests\UpdatelevelRequest;
+use App\Models\Level;
+use Illuminate\Http\Response;
 
 class LevelController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -21,7 +22,7 @@ class LevelController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -31,8 +32,8 @@ class LevelController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorelevelRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StorelevelRequest $request
+     * @return Response
      */
     public function store(StorelevelRequest $request)
     {
@@ -42,8 +43,8 @@ class LevelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Level  $level
-     * @return \Illuminate\Http\Response
+     * @param Level $level
+     * @return Response
      */
     public function show(Level $level)
     {
@@ -53,8 +54,8 @@ class LevelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Level  $level
-     * @return \Illuminate\Http\Response
+     * @param Level $level
+     * @return Response
      */
     public function edit(Level $level)
     {
@@ -64,9 +65,9 @@ class LevelController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatelevelRequest  $request
-     * @param  \App\Models\Level  $level
-     * @return \Illuminate\Http\Response
+     * @param UpdatelevelRequest $request
+     * @param Level $level
+     * @return Response
      */
     public function update(UpdatelevelRequest $request, Level $level)
     {
@@ -76,8 +77,8 @@ class LevelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Level  $level
-     * @return \Illuminate\Http\Response
+     * @param Level $level
+     * @return Response
      */
     public function destroy(Level $level)
     {
