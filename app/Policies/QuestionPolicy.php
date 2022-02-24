@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Question;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -16,9 +17,9 @@ class QuestionPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user,Room $room)
     {
-        //
+        return  $user->can('view',$room);
     }
 
     /**
@@ -28,9 +29,9 @@ class QuestionPolicy
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Question $question)
+    public function view(User $user, Question $question,Room $room)
     {
-        //
+        return  $user->can('view',$room);
     }
 
     /**
@@ -39,9 +40,9 @@ class QuestionPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user ,Room $room)
     {
-        //
+        return  $user->can('ask',$room);
     }
 
     /**
@@ -51,9 +52,9 @@ class QuestionPolicy
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Question $question)
+    public function update(User $user, Question $question,Room $room)
     {
-        //
+        return  $user->questions->contains($question);
     }
 
     /**
@@ -63,9 +64,9 @@ class QuestionPolicy
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Question $question)
+    public function delete(User $user, Question $question,Room $room)
     {
-        //
+        return  $user->questions->contains($question);
     }
 
     /**
@@ -75,9 +76,9 @@ class QuestionPolicy
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Question $question)
+    public function restore(User $user, Question $question,Room $room)
     {
-        //
+        return  $user->questions->contains($question);
     }
 
     /**
@@ -87,8 +88,8 @@ class QuestionPolicy
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Question $question)
+    public function forceDelete(User $user, Question $question,Room $room)
     {
-        //
+        return  $user->questions->contains($question);
     }
 }

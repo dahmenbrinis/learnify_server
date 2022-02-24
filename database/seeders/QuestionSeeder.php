@@ -16,10 +16,8 @@ class QuestionSeeder extends Seeder
      */
     public function run()
     {
-        Room::all()->each(function ($room) {
-            $questions =  Question::factory(10)->create();
-            $room->questions()->saveMany($questions);
-            $room->creator->questions()->saveMany($questions);
-        });
+        foreach (User::all() as $user){
+            Question::factory(10)->make()->each(fn($question)=>$question->user()->associate($user)->save());
+        }
     }
 }

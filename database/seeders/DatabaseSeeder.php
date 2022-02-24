@@ -25,10 +25,13 @@ class DatabaseSeeder extends Seeder
          ]);
         $user->save();
         $user->createToken('tokens');
-        \App\Models\User::factory(100)->create();
+        \App\Models\User::factory(20)->create();
         $seeder = new RoomSeeder();
         $seeder->run();
+
         (new QuestionSeeder())->run();
+        (new CommentSeeder())->run();
+        $user->rooms()->first()->comments;
     }
 
     private function create_levels()

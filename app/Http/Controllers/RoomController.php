@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JoinRoomRequest;
+use App\Http\Requests\LeaveRoomRequest;
+use App\Http\Requests\StoreRoomRequest;
+use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Room;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return array
+     * @return LengthAwarePaginator
      */
     public function index()
     {
@@ -26,32 +28,24 @@ class RoomController extends Controller
             ->Where('visibility','=',1)
             ->orWhereIn('id',$myRooms)
             ->orderByDesc('id')
-            ->paginate(12)
-            ->items();
+            ->paginate(12);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreRoomRequest $request)
     {
-        $validator = $request->validate([
-            'name'=>"required|min:3",
-            'description'=>"required|min:10",
-            'image_name'=>"sometimes|nullable|image",
-            'visibility'=>['required',Rule::in(array_keys(Room::$Visibilities))],
-            'level_id'=>['required',Rule::exists('levels','id')],
-        ])+['creator_id'=>Auth::id()];
-        if (isset($validator['image_name'])&&$validator['image_name']!=null){
+        $validated = $request->validated();
+        if (isset($validated['image_name'])&&$validated['image_name']!=null){
 //            TODO: implement the file upload.
         }else{
-            $validator['image_name']= ['biology.png','math.png','computer_science.png'][array_rand([0,1,2])];
+            $validated['image_name'] = ['biology.png','math.png','computer_science.png'][array_rand([0,1,2])];
         }
-        if ( Auth::user()->cannot('create',Room::class)) return response(['message'=>'forbidden action'],301);
-        return Auth::user()->rooms()->create($validator);
+        return Auth::user()->rooms()->create($validated+['creator_id'=>Auth::id()]);
     }
 
     /**
@@ -68,65 +62,47 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Room  $id
-     * @return Room|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
+     * @param UpdateRoomRequest $request
+     * @return Room
      */
-    public function update(Request $request, Room $room)
+    public function update(UpdateRoomRequest $request, Room $room)
     {
-//        dd(Auth::id(),$room);
-
-        $validator = $request->validate([
-            'id'=>'required',
-            'name'=>"sometimes|min:3",
-            'description'=>"sometimes|min:10",
-            'visibility'=>['sometimes',Rule::in(array_keys(Room::$Visibilities))],
-            'level_id'=>['sometimes',Rule::exists('levels','id')],
-        ]);
-        if (Auth::user()->cannot('update',$room)) return response(['message'=>'access forbidden '],301);
-        $room->update($validator);
-        $room->refresh() ;
-        return $room ;
+        $room->update($request->validated());
+        $room->refresh();
+        return $room;
     }
     /**
      * join a room using a key if the room is private .
      *
-     * @return Room|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
+     * @return Room
      */
-    public function join(Request $request,Room $room)
+    public function join(JoinRoomRequest $request,Room $room)
     {
-        if(Auth::user()->cannot('join',$room))
-            return response(['message'=>'you are already subscribed to this room'],301);
-        if($room->visibility === Room::$PrivateRoom and $room->id!==$request['code'])
-            return response(['message'=>'access forbidden '],301);
-//      otherwise, join the room .
-        Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
-//        $room->name = 'testting';
-        $room->refresh();
-//        $count = $room->userCount;
+        Auth::user()->rooms()->sync([$room->id]);
+        $room->refresh() ;
         return $room;
     }
-    /**
-     * Display a listing of the resource using a search query.
-     *
-     * @return Response
-     */
-    public function search(string $search)
-    {
 
-//        $x =Auth::user()->rooms()->orderByDesc('id')->paginate(12);
-        return Auth::user()->rooms()->orderByDesc('id')->paginate(12)->items();
-//        return Room::all();
+    /**
+     * join a room using a key if the room is private .
+     *
+     * @return Room
+     */
+    public function leave(LeaveRoomRequest $request,Room $room)
+    {
+        Auth::user()->rooms()->detach([$room->id]);
+        $room->refresh();
+        return $room;
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return bool
      */
     public function destroy($id)
     {
-        //
+        return false ;
     }
 }

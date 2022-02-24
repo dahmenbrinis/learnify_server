@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->index('room_id');
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->foreignId('room_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

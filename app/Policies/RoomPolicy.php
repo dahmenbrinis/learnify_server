@@ -5,6 +5,9 @@ namespace App\Policies;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class RoomPolicy
 {
@@ -14,28 +17,25 @@ class RoomPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function ask(User $user, Room $room)
     {
-        if(!$user) return  false ;
-        return  true ;
+        return  $user->can('view',$room);
     }
 
     public function join(User $user, Room $room)
     {
-        if(!$user) return  false ;
         return  $user->cannot('view',$room);
     }
     /**
      * Determine whether the user can view any models.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user):bool
     {
-        if(!$user) return  false ;
         return true ;
     }
 
@@ -45,11 +45,10 @@ class RoomPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Room  $room
-     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return bool
      */
-    public function view(User $user, Room $room)
+    public function view(User $user, Room $room): bool
     {
-        if(!$user) return  false ;
         return  $user->rooms->contains($room);
     }
 
@@ -57,11 +56,10 @@ class RoomPolicy
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function create(User $user)
     {
-        if(!$user) return  false ;
         return $user->type === User::$Teacher;
     }
 
@@ -70,11 +68,10 @@ class RoomPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function update(User $user, Room $room)
     {
-        if(!$user) return  false ;
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 
@@ -83,11 +80,10 @@ class RoomPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function delete(User $user, Room $room)
     {
-        if(!$user) return  false ;
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 
@@ -96,11 +92,10 @@ class RoomPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function restore(User $user, Room $room)
     {
-        if(!$user) return  false ;
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 
@@ -109,11 +104,10 @@ class RoomPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function forceDelete(User $user, Room $room)
     {
-        if(!$user) return  false ;
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 }

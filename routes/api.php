@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RoomController;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -26,8 +28,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return Room::all();
 });
 Route::middleware('auth:sanctum')->group(function (){
-    Route::apiResource('/room', RoomController::class);
+    Route::apiResource('/rooms', RoomController::class);
     Route::post('/join_room/{room}',[RoomController::class,'join']);
+    Route::post('/leave_room/{room}',[RoomController::class,'leave']);
+    Route::apiResource('/rooms/{room}/questions', QuestionController::class);
+    Route::get('questions/{question}/comments',[CommentController::class,'index']);
+    Route::post('questions/{question}/comments',[CommentController::class,'store']);
 });
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);

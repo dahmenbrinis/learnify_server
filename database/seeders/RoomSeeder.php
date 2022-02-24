@@ -17,9 +17,9 @@ class RoomSeeder extends Seeder
     {
 //        $room = Room::factory(2)->create()->get(1);
 //        $room->users()->syncWithoutDetaching([1]) ;
-        Room::factory(30)->create()->each(function (Room $room)  {
+        Room::factory(20)->create()->each(function (Room $room)  {
             $users = array_diff(User::all()->pluck('id')->toArray(),[0,$room->creator->id]);
-            $users = array_flip(array_rand($users,rand(5,20)));
+            $users = array_flip(array_rand($users,rand(5,10)));
             $room->users()->syncWithoutDetaching(array_diff($users,[0]));
             $room->users()->syncWithoutDetaching($room->creator->id);
         });

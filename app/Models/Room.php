@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use function PHPSTORM_META\map;
 
 /**
  * @property int $visibility
  * @property int $id
  * @property User $creator
+ * @property Question $questions
  */
 class Room extends Model
 {
@@ -36,22 +38,19 @@ class Room extends Model
         return $this->hasMany(Question::class);
     }
 
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function getVisibilityNameAttribute(): string
     {
-//        dd($this->visibility);
         return self::$Visibilities[$this->visibility];
-//        return  '';
     }
 
     public function getUserCountAttribute(): int
     {
-//        dd($this->users);
         return $this->users()->count();
-    }
-
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
     }
 
     public function getQuestionsCountAttribute(): int
@@ -67,7 +66,10 @@ class Room extends Model
 
     public function getPermissionsAttribute(): array
     {
-        if(!Auth::user()) return array_fill_keys(self::$permissions,false);
-        return array_map(fn($key)=>[$key=>Auth::user()->can(substr($key, 4), $this)],self::$permissions);
+        $result = array_fill_keys(self::$permissions,false);
+        if(Auth::user())
+            foreach( $result as $key => $value)
+                $result[$key]= Auth::user()->can(substr($key, 4), $this);
+        return $result;
     }
 }

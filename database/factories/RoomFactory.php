@@ -18,8 +18,8 @@ class RoomFactory extends Factory
     {
 
         return [
-            'name'=>$this->faker->words(2,true),
-            'description'=>$this->faker->sentence(20),
+            'name'=>$this->faker->realText(15),
+            'description'=>$this->faker->realText(150),
             'image_name'=> ['biology.png','math.png','computer_science.png'][array_rand([0,1,2])],
             'level_id'=>$this->faker->randomElement(Level::all()->toArray())['id'],
             'creator_id'=>$this->faker->randomElement(User::all()->toArray())['id'],
