@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64px" height="64px" viewBox="0 0 64 64" version="1.1">
-    <rect fill="#ba68c8" cx="32" width="64" height="64" cy="32" r="32"/>
+    <rect fill="#FFBB00DD" cx="32" width="64" height="64" cy="32" r="32"/>
     <text x="50%" y="50%"
-          style="color: #000000; line-height: 1;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;"
+          style="color: #2196F3FF; line-height: 1;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;"
           alignment-baseline="middle" text-anchor="middle" font-size="28" font-weight="600" dy=".1em"
-          dominant-baseline="middle" fill="#000000">JD
+          dominant-baseline="middle" fill="#2196F3FF">LR
     </text>
 </svg>
