@@ -17,6 +17,7 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->string('src');
             $table->string('alt')->default('None');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->morphs('imagable');
             $table->timestamps();
         });
