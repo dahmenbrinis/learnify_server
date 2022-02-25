@@ -5,8 +5,6 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RoomController;
-use App\Models\Room;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,25 +18,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    $room = Room::factory()->make()->first();
-    $room->update(['creator_id'=>Auth::id()]);
-    $room->refresh();
-//    dd(Auth::user()->can('update',$room),$room->permissions );
-    return Room::all();
-});
 Route::middleware('auth:sanctum')->group(function (){
     Route::apiResource('/rooms', RoomController::class);
-    Route::post('/join_room/{room}',[RoomController::class,'join']);
-    Route::post('/leave_room/{room}',[RoomController::class,'leave']);
+    Route::post('/join_room/{room}', [RoomController::class, 'join']);
+    Route::post('/leave_room/{room}', [RoomController::class, 'leave']);
     Route::apiResource('/rooms/{room}/questions', QuestionController::class);
-    Route::get('questions/{question}/comments',[CommentController::class,'index']);
-    Route::post('questions/{question}/comments',[CommentController::class,'store']);
+    Route::get('questions/{question}/comments', [CommentController::class, 'index']);
+    Route::post('questions/{question}/comments', [CommentController::class, 'store']);
+    Route::post('/images', [ImageController::class, 'store']);
+    Route::get('/images/{image}', [ImageController::class, 'view']);
 });
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'register']);
 //Route::post('/', [ImageController::class, 'getImage2']);
-Route::get('/{file}', [ImageController::class, 'getImage']);
+//Route::get('/{file}', [ImageController::class, 'getImage']);
 //Route::apiResource('/room', RoomController::class );
 
