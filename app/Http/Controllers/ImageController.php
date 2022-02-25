@@ -14,7 +14,7 @@ class ImageController extends Controller
         $image = Image::find($image);
         if (!isset($image) || !Storage::disk('images')->has($image->src)) {
             $alt = str_replace(" ", "+", $image->alt ?? 'J D');
-            $path = "https://ui-avatars.com/api?name=$alt&background=random&bold=true&format=svg";
+            $path = "https://ui-avatars.com/api?name=$alt&background=FFBB00DD&color=2196F3FF&bold=true&format=svg";
             return $this->svg2Image($path);
         }
         $path = Storage::disk('images')->path($image->src);

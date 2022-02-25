@@ -16,15 +16,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->create_levels();
-        $user =  new User([
-             'name'=>'dahmen',
-             'email'=>'dahmen@gmail.com',
-             'password'=>bcrypt('password'),
-            'type'=>0,
-         ]);
+        $user = new User([
+            'name' => 'dahmen',
+            'email' => 'dahmen@gmail.com',
+            'password' => bcrypt('password'),
+            'type' => 0,
+        ]);
         $user->save();
         $user->createToken('tokens');
-        User::factory(20)->create();
+        User::factory(20)->create()->each(
+            fn($user) => $user->profileImage()->create(['user_id' => $user->id, 'alt' => $user->name])
+        );
         $seeder = new RoomSeeder();
         $seeder->run();
 
