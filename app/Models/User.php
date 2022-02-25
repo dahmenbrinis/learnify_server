@@ -80,7 +80,7 @@ class User extends Authenticatable
 
     public function profileImage(): MorphOne
     {
-        return $this->morphOne(Image::class, 'commentable');
+        return $this->morphOne(Image::class, 'imagable');
     }
 
     public function allImages(): HasMany

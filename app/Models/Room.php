@@ -46,7 +46,7 @@ class Room extends Model
 
     public function images(): MorphMany
     {
-        return $this->morphMany(Image::class, 'commentable');
+        return $this->morphMany(Image::class, 'imagable');
     }
 
     public function getVisibilityNameAttribute(): string
