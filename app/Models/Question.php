@@ -55,4 +55,9 @@ class Question extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'commentable');
+    }
 }
