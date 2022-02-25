@@ -24,7 +24,7 @@ class StoreImageRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|Max:4056',
+            'image' => 'sometimes|nullable|image|mimes:jpg,png,jpeg,gif,svg|Max:4056',
             'imagable_type' => 'required',
             'imagable_id' => 'required',
             'alt' => 'required',
