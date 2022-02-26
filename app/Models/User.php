@@ -56,11 +56,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['profileImageId'];
+    protected $appends = ['imageId'];
 
-    public function getProfileImageIdAttribute()
+    public function getImageIdAttribute()
     {
-        return $this->profileImage;
+        return $this->profileImage->id ?? null;
     }
 
 

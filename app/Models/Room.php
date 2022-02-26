@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
  * @property int $visibility
@@ -27,7 +27,7 @@ class Room extends Model
 
     protected $guarded = [];
     protected $hidden = ['creator'];
-    protected $appends = ['permissions', 'userCount', 'questionsCount', 'answersCount', 'visibilityName'];
+    protected $appends = ['imageId', 'permissions', 'userCount', 'questionsCount', 'answersCount', 'visibilityName'];
 
     public function creator(): BelongsTo
     {
@@ -44,10 +44,16 @@ class Room extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function images(): MorphMany
+    public function image(): MorphOne
     {
-        return $this->morphMany(Image::class, 'imagable');
+        return $this->morphOne(Image::class, 'imagable');
     }
+
+    public function getImageIdAttribute()
+    {
+        return $this->image->id ?? null;
+    }
+
 
     public function getVisibilityNameAttribute(): string
     {
