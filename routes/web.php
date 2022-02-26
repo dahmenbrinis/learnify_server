@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/{file}', [ImageController::class, 'getImage']);
 Route::get('/', function (){
-    return User::first();
+//    return \App\Models\Image::all();
+    return User::find(3);
 });
 
 Route::apiResource('/room', RoomController::class );
