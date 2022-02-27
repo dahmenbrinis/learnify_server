@@ -28,4 +28,9 @@ class Comment extends Model
     {
         return $this->morphMany(Image::class, 'imagable');
     }
+
+    public function votes(): MorphMany
+    {
+        return $this->morphMany(Vote::class, 'votable');
+    }
 }
