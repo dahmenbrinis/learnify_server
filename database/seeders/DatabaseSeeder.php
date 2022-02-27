@@ -16,16 +16,19 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->create_levels();
-        $user = new User([
+        $user = User::create([
             'name' => 'dahmen',
             'email' => 'dahmen@gmail.com',
             'password' => bcrypt('password'),
             'type' => 0,
         ]);
-        $user->save();
-        $user->createToken('tokens');
+        $user->profileImage()->create(['user_id' => $user->id, 'src' => 'profile1.png']);
+//        $user->createToken('tokens');
         User::factory(20)->create()->each(
-            fn($user) => $user->profileImage()->create(['user_id' => $user->id, 'alt' => $user->name])
+            function ($user) {
+//                if ($user->id < 12)
+                return $user->profileImage()->create(['user_id' => $user->id, 'src' => 'profile' . array_rand([1, 2, 3, 4, 5]) . '.png']);
+            }
         );
         $seeder = new RoomSeeder();
         $seeder->run();

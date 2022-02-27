@@ -2,26 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-//            'device_name' => 'required',
-        ]);
-
-        if (!Auth::attempt($credentials)) {
-            return response(['message'=>'Credentials not match'],500);
-        }
-        $user = auth()->user();
-        return array_merge($user->toArray(),['token'=>$user->createToken('tokens')->plainTextToken]);
+        return $request->validated();
     }
 
     // this method signs out users by removing tokens
