@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('questions/{question}/comments', [CommentController::class, 'index']);
     Route::post('questions/{question}/comments', [CommentController::class, 'store']);
     Route::post('/images', [ImageController::class, 'store']);
+    Route::post('/fcm_update', [AuthController::class, 'updateFcmToken']);
 });
 Route::get('/images/{image}/{alt}', [ImageController::class, 'view']);
 Route::post('/login', [AuthController::class, 'login']);

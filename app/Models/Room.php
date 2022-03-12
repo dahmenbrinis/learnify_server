@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property int $id
  * @property User $creator
  * @property Question $questions
+ * @property Collection<User> $users
  * @method static find(int $id)
  */
 class Room extends Model

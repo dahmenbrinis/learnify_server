@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static create(array $validated)
  * @property Room room
  * @property User user
+ * @property string $description
  */
 class Question extends Model
 {

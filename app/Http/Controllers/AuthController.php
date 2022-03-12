@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -25,6 +26,14 @@ class AuthController extends Controller
     }
 
 
+    public function updateFcmToken(Request $request)
+    {
+        $validated = $request->validate([
+            'fcm_token'=>'nullable|string'
+            ]);
+        return Auth::user()->update(['fcm_token'=>$validated['fcm_token']]);
+    }
+
     public function register(Request $request)
     {
         $attr = $request->validate([
@@ -33,7 +42,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
             'type'=>'required',
         ]);
-
+        $attr['password'] = Hash::make($attr['password']);
         $user = User::create($attr);
         Auth::attempt($attr);
         return array_merge($user->toArray(),['token'=>$user->createToken('tokens')->plainTextToken]);

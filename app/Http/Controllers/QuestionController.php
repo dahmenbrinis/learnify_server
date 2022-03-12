@@ -6,8 +6,10 @@ use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
 use App\Models\Room;
+use App\Notifications\QuestionAdded;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Notification;
 
 class QuestionController extends Controller
 {
@@ -20,7 +22,6 @@ class QuestionController extends Controller
     {
         return $room->questions()->with('user')->paginate(12);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -30,7 +31,12 @@ class QuestionController extends Controller
      */
     public function store(StoreQuestionRequest $request,Room $room)
     {
-        return Question::create($request->validated()+['user_id'=>auth()->id(),'room_id'=>$room->id]);
+        $question =  Question::create($request->validated()+['user_id'=>auth()->id(),'room_id'=>$room->id]);
+//        dd('test');
+//        Notification::send($room->users,new QuestionAdded($question));
+//        $room->update(['name'=>'changed']);
+        Notification::send($room->users, new QuestionAdded($question));
+        return $question ;
     }
 
     /**

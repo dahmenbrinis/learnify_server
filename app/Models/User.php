@@ -16,6 +16,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Collection $questions
  * @property Collection<Room> $rooms
  * @property int $type
+ * @property string $name
+ * @property string $fcm_token
  * @method static create(array $attr)
  */
 class User extends Authenticatable
@@ -35,6 +37,7 @@ class User extends Authenticatable
         'email',
         'password',
         'type',
+        'fcm_token',
     ];
 
     /**
@@ -45,6 +48,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'fcm_token',
     ];
 
     /**
@@ -98,5 +102,15 @@ class User extends Authenticatable
     public function votes()
     {
         return $this->hasMany(Vote::class);
+    }
+
+    /**
+     * Specifies the user's FCM token
+     *
+     * @return string|array
+     */
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
     }
 }
