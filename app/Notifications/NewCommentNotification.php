@@ -67,8 +67,8 @@ class NewCommentNotification extends Notification
     {
         return FcmMessage::create()
             ->setData([
-                'userName'=>$this->user->name,
-                'commentName'=>substr($this->comment->body,0,100).'...',
+                'title'=>$this->user->name,
+                'body'=>substr($this->comment->body,0,100).'...',
                 'type' =>self::class
             ]);
     }

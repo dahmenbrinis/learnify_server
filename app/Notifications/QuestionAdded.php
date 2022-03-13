@@ -71,10 +71,10 @@ class QuestionAdded extends Notification implements ShouldQueue
     {
         return FcmMessage::create()
             ->setData([
-                'userName'=>$this->user->name,
-                'questionName'=>substr($this->question->description,0,100),
+                'title'=>$this->user->name,
+                'body'=>substr($this->question->description,0,100),
                 'type' =>self::class
-            ]);
+            ])->setTopic('questionUpdated');
     }
     public function toArray($notifiable)
     {
