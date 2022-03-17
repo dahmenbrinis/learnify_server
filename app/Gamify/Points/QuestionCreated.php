@@ -5,8 +5,6 @@ namespace App\Gamify\Points;
 use App\Models\Room;
 use App\Models\User;
 use Auth;
-use Carbon\Carbon;
-use phpDocumentor\Reflection\Types\This;
 use QCod\Gamify\PointType;
 
 class QuestionCreated extends PointType
