@@ -73,6 +73,19 @@ class RoomController extends Controller
         $room->refresh();
         return $room;
     }
+
+
+
+    /**
+     * get leaderboard list of a room .
+     *
+     * @return Room
+     */
+    public function leaderboard(Room $room)
+    {
+        return $room->leaderBoard;
+    }
+
     /**
      * join a room using a key if the room is private .
      *
@@ -80,7 +93,7 @@ class RoomController extends Controller
      */
     public function join(JoinRoomRequest $request,Room $room)
     {
-        Auth::user()->rooms()->sync([$room->id]);
+        Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
         $room->refresh() ;
         return $room;
     }

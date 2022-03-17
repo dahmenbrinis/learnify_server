@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
+use QCod\Gamify\Gamify;
 
 /**
  * @property Collection $questions
@@ -22,7 +23,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Gamify;
 
     public static int $Teacher = 0;
     public static int $Student = 1;
@@ -60,7 +61,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['imageId'];
+    protected $appends = ['imageId','points'];
+
+    public function getPointsAttribute()
+    {
+        return $this->getPoints(true);
+    }
 
     public function getImageIdAttribute()
     {

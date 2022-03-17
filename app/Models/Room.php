@@ -86,4 +86,16 @@ class Room extends Model
                 $result[$key]= Auth::user()->can(substr($key, 4), $this);
         return $result;
     }
+
+    public function reputations(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany('QCod\Gamify\Reputation', 'subject');
+    }
+
+    public function leaderBoard(): BelongsToMany
+    {
+        return  $this->users()->withSum('reputations','point')->orderByDesc('reputations_sum_point');
+    }
+
+
 }

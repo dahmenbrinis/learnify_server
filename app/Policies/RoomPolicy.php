@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Room;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
@@ -74,6 +75,14 @@ class RoomPolicy
         return $user->type === User::$Teacher && $room->creator->is($user);
     }
 
+    public function dailyReputation(User $user , Room $room , string $actionName): bool
+    {
+        return $room->reputations()
+            ->where('payee_id',$user->id)
+            ->where('name',$actionName)
+            ->whereDate('created_at', Carbon::today())
+            ->doesntExist();
+    }
     /**
      * Determine whether the user can delete the model.
      *
