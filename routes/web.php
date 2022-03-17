@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/{file}', [ImageController::class, 'getImage']);
+//Route::get('/{file}', [ImageController::class, 'getImage']);
 //Route::get('/', function (){
 ////    return \App\Models\Image::all();
 ////    dd(User::all()->first());

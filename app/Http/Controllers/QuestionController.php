@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Gamify\Points\QuestionCreated;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
@@ -32,9 +33,7 @@ class QuestionController extends Controller
     public function store(StoreQuestionRequest $request,Room $room)
     {
         $question =  Question::create($request->validated()+['user_id'=>auth()->id(),'room_id'=>$room->id]);
-//        dd('test');
-//        Notification::send($room->users,new QuestionAdded($question));
-//        $room->update(['name'=>'changed']);
+        givePoint(new QuestionCreated($room));
         Notification::send($room->users, new QuestionAdded($question));
         return $question ;
     }

@@ -13,7 +13,8 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.5",
-        "lasserafn/php-initial-avatar-generator": "^4.2"
+        "lasserafn/php-initial-avatar-generator": "^4.2",
+        "qcod/laravel-gamify": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
