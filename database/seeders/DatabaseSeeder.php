@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->profileImage()->create(['user_id' => $user->id, 'src' => 'profile1.png']);
 //        $user->createToken('tokens');
-        User::factory(20)->create()->each(
+        User::factory(40)->create()->each(
             function ($user) {
 //                if ($user->id < 12)
                 return $user->profileImage()->create(['user_id' => $user->id, 'src' => 'profile' . array_rand([1, 2, 3, 4, 5]) . '.png']);

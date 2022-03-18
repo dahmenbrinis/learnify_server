@@ -94,7 +94,9 @@ class Room extends Model
 
     public function leaderBoard(): BelongsToMany
     {
-        return  $this->users()->withSum('reputations','point')->orderByDesc('reputations_sum_point');
+        return  $this->users()
+            ->withSum('reputations as reputation','point')
+            ->orderByDesc('reputation');
     }
 
 
