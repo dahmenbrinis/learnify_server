@@ -16,6 +16,12 @@ class Comment extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $appends = ['voteCount'];
+
+    public function getVoteCountAttribute()
+    {
+        return $this->votes()->count();
+    }
 
     public function commentable(): MorphTo
     {

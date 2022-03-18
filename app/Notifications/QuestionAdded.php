@@ -74,7 +74,7 @@ class QuestionAdded extends Notification implements ShouldQueue
                 'title'=>$this->user->name,
                 'body'=>substr($this->question->description,0,100),
                 'type' =>self::class
-            ])->setTopic('questionUpdated');
+            ]);
     }
     public function toArray($notifiable)
     {

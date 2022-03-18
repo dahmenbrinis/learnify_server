@@ -13,6 +13,12 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Vote extends Model
 {
     use HasFactory;
+    protected $fillable = ['votable_type' , 'votable_id'];
+    protected $appends = ['user'];
+
+    public function  getUserAttribute(){
+        return $this->user()->get();
+    }
 
     public function votable(): MorphTo
     {

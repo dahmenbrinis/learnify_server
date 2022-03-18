@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddVoteRequest;
 use App\Http\Requests\RemoveVoteRequest;
+use App\Models\User;
 use App\Models\Vote;
 use Auth;
 use Illuminate\Http\Response;
@@ -18,7 +19,9 @@ class VoteController extends Controller
      */
     public function vote(AddVoteRequest $request)
     {
-        return Auth::user()->votes()->create($request->validated());
+        if(Auth::user()->votes()->where($request->validated())->doesntExist())
+            return Auth::user()->votes()->create($request->validated());
+        return null ;
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/fcm_update', [AuthController::class, 'updateFcmToken']);
     Route::get('/updatePoints',[Controller::class,'updatePoints']);
     Route::get('/test', [Controller::class, 'test']);
+    Route::post('/vote',[VoteController::class , 'vote']);
+    Route::post('/unVote',[VoteController::class , 'unVote']);
 });
 Route::get('/images/{image}/{alt}', [ImageController::class, 'view']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
