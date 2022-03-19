@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -18,6 +19,12 @@ class Controller extends BaseController
     {
         return Auth::user()->getPoints(true);
     }
+
+    public function getGlobalLeaderBoard()
+    {
+        return User::query()->orderByDesc('reputation')->paginate(20);
+    }
+
 
     public function test(){
         return Vote::all();

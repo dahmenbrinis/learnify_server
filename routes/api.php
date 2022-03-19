@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/vote',[VoteController::class , 'vote']);
     Route::post('/unVote',[VoteController::class , 'unVote']);
 });
+Route::get('/leaderboard',[Controller::class,'getGlobalLeaderBoard']);
 Route::get('/images/{image}/{alt}', [ImageController::class, 'view']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
