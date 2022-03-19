@@ -26,7 +26,7 @@ class AddVoteRequest extends FormRequest
         return [
             'votable_id' => 'required',
             'votable_type' => 'required',
-//            'value'=>'sometimes|nullable'
+            'room'=>'required'
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentRequest;
+use App\Models\Comment;
 use App\Models\Question;
 use App\Notifications\NewCommentNotification;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,6 @@ class CommentController extends Controller
 
     public function index(Question $question)
     {
-        return $question->comments()->with('user')->paginate(12);
+        return $question->comments()->with('user')->with('votes')->paginate(12);
     }
 }

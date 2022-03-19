@@ -15,16 +15,16 @@ class QuestionCreated extends PointType
      * @var int
      */
     public $points = 3;
-    public User $user ;
+    public ?User $user ;
     /**
      * Point constructor
      *
      * @param $subject
      */
-    public function __construct(Room $subject   )
+    public function __construct(Room $subject , $user = null  )
     {
         $this->subject = $subject;
-//        $this->user = $user ;
+        $this->user = $user ;
     }
 
     /**
@@ -34,11 +34,11 @@ class QuestionCreated extends PointType
      */
     public function payee()
     {
-        return Auth::user();
+        return $this->user??Auth::user();
     }
 
-    public function qualifier()
+    public function qualifier(): bool
     {
-        return Auth::user()->can('dailyReputation',[$this->getSubject(),'QuestionCreated']);
+        return ($this->user??Auth::user())->can('dailyReputation',[$this->getSubject(),'QuestionCreated']);
     }
 }

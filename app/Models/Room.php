@@ -92,11 +92,11 @@ class Room extends Model
         return $this->morphMany('QCod\Gamify\Reputation', 'subject');
     }
 
-    public function leaderBoard(): BelongsToMany
+    public function leaderBoard()
     {
-        return  $this->users()
-            ->withSum('reputations as reputation','point')
-            ->orderByDesc('reputation');
+        return $this->reputations()->with('payee')
+            ->selectRaw('* , SUM(point) as points')
+            ->groupBy('payee_id');
     }
 
 

@@ -2,7 +2,7 @@
 
 return [
     // Model which will be having points, generally it will be User
-    'payee_model' => '\App\User',
+    'payee_model' => '\App\Models\User',
 
     // Reputation model
     'reputation_model' => '\QCod\Gamify\Reputation',

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Gamify\Points\QuestionCreated;
 use App\Models\Question;
 use App\Models\Room;
 use App\Models\User;
@@ -17,7 +18,10 @@ class QuestionSeeder extends Seeder
     public function run()
     {
         foreach (User::all() as $user){
-            Question::factory(10)->make()->each(fn($question)=>$question->user()->associate($user)->save());
+            Question::factory(10)->make()->each(function ($question) use ($user) {
+                $q = $question->user()->associate($user)->save();
+                $user->givePoint(new QuestionCreated($question->room,$user));
+            });
         }
     }
 }

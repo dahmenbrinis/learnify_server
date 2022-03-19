@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Gamify\Points\QuestionCreated;
+use App\Gamify\Points\VoteAdded;
 use App\Http\Requests\AddVoteRequest;
 use App\Http\Requests\RemoveVoteRequest;
-use App\Models\User;
+use App\Models\Room;
 use App\Models\Vote;
 use Auth;
 use Illuminate\Http\Response;
@@ -19,8 +21,10 @@ class VoteController extends Controller
      */
     public function vote(AddVoteRequest $request)
     {
-        if(Auth::user()->votes()->where($request->validated())->doesntExist())
+        if(Auth::user()->votes()->where($request->except('room'))->doesntExist()){
+            givePoint(new VoteAdded(Room::find($request['room'])));
             return Auth::user()->votes()->create($request->validated());
+        }
         return null ;
     }
 
@@ -33,7 +37,11 @@ class VoteController extends Controller
      */
     public function unVote(RemoveVoteRequest $request)
     {
-        return Auth::user()->votes()->where($request->validated())->delete();
+
+        if(Auth::user()->votes()->where($request->except('room'))->exists()){
+            undoPoint(new VoteAdded(Room::find($request['room'])));
+        }
+        return Auth::user()->votes()->where($request->except('room'))->delete();
     }
 
 }

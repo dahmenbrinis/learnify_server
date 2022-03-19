@@ -26,6 +26,7 @@ class RemoveVoteRequest extends FormRequest
         return [
             'votable_id' => 'required',
             'votable_type' => 'required',
+            'room' => 'required',
         ];
     }
 }
