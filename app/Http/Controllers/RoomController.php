@@ -83,7 +83,7 @@ class RoomController extends Controller
      */
     public function leaderboard(Room $room)
     {
-        return $room->leaderBoard()->paginate(200);
+        return $room->leaderBoard()->orderByDesc('points')->paginate(200);
     }
 
     /**
