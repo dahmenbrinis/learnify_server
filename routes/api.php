@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/room_leaderboard/{room}', [RoomController::class, 'leaderboard']);
     Route::apiResource('/rooms/{room}/questions', QuestionController::class);
     Route::get('questions/{question}/comments', [CommentController::class, 'index']);
+    Route::get('questions/{question}/comments/{comment}/approve', [CommentController::class, 'approve']);
+    Route::get('questions/{question}/comments/{comment}/disApprove', [CommentController::class, 'disApprove']);
     Route::post('questions/{question}/comments', [CommentController::class, 'store']);
     Route::post('/images', [ImageController::class, 'store']);
     Route::post('/fcm_update', [AuthController::class, 'updateFcmToken']);
