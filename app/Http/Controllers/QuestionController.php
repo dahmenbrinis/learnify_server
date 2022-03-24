@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
 use App\Models\Room;
 use App\Notifications\QuestionAdded;
+use Auth;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
@@ -21,6 +22,7 @@ class QuestionController extends Controller
      */
     public function index(Room $room)
     {
+        ray($room->questions()->with('user')->paginate(12));
         return $room->questions()->with('user')->paginate(12);
     }
     /**
@@ -36,6 +38,17 @@ class QuestionController extends Controller
         givePoint(new QuestionCreated($room));
         Notification::send($room->users, new QuestionAdded($question));
         return $question ;
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param Question $question
+     * @return Response
+     */
+    public function myQuestions()
+    {
+        ray()->models(Auth::user()->questions()->with('user')->paginate(12));
+        return Auth::user()->questions()->with('user')->paginate(12);
     }
 
     /**

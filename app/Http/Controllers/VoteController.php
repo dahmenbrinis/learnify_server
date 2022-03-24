@@ -23,6 +23,7 @@ class VoteController extends Controller
     {
         if(Auth::user()->votes()->where($request->except('room'))->doesntExist()){
             givePoint(new VoteAdded(Room::find($request['room'])));
+            ray(Auth::user()->votes()->make($request->validated()));
             return Auth::user()->votes()->create($request->validated());
         }
         return null ;
@@ -40,6 +41,7 @@ class VoteController extends Controller
 
         if(Auth::user()->votes()->where($request->except('room'))->exists()){
             undoPoint(new VoteAdded(Room::find($request['room'])));
+            ray('vote revoked');
         }
         return Auth::user()->votes()->where($request->except('room'))->delete();
     }

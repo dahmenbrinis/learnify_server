@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/leave_room/{room}', [RoomController::class, 'leave']);
     Route::get('/room_leaderboard/{room}', [RoomController::class, 'leaderboard']);
     Route::apiResource('/rooms/{room}/questions', QuestionController::class);
+    Route::get('/my_questions', [QuestionController::class, 'myQuestions']);
     Route::get('questions/{question}/comments', [CommentController::class, 'index']);
     Route::get('questions/{question}/comments/{comment}/approve', [CommentController::class, 'approve']);
     Route::get('questions/{question}/comments/{comment}/disApprove', [CommentController::class, 'disApprove']);

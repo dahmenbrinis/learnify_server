@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^7.4|8.*|8.1",
+        "php": "8.*|8.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "kreait/laravel-firebase": "^4.1",
@@ -14,7 +14,8 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.5",
         "lasserafn/php-initial-avatar-generator": "^4.2",
-        "qcod/laravel-gamify": "^1.0"
+        "qcod/laravel-gamify": "^1.0",
+        "spatie/laravel-ray": "^1.29"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

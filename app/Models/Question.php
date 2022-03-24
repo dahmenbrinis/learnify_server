@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,7 @@ class Question extends Model
 
     protected $guarded = [];
     static array $permissions = ['can_viewAny', 'can_view', 'can_update', 'can_delete', 'can_create'];
-    protected $appends = ['permissions', 'voteCount', 'answersCount'];
+    protected $appends = ['permissions', 'voteCount', 'answersCount' , 'votes'];
 
     public function user(): BelongsTo
     {
@@ -34,13 +35,18 @@ class Question extends Model
 
     public function getAnswersCountAttribute(): int
     {
-        return 50;
+        return $this->comments()->count();
     }
 
     public function getVoteCountAttribute(): int
     {
         //TODO : add the voting count implementation
-        return 50;
+        return $this->votes()->count();
+    }
+
+    public function getVotesAttribute(): Collection
+    {
+        return $this->votes()->get();
     }
 
     public function getPermissionsAttribute(): array
@@ -60,5 +66,10 @@ class Question extends Model
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imagable');
+    }
+
+    public function votes()
+    {
+        return $this->morphMany(Vote::class , 'votable');
     }
 }

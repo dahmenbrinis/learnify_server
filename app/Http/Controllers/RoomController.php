@@ -79,7 +79,7 @@ class RoomController extends Controller
     /**
      * get leaderboard list of a room .
      *
-     * @return Room
+     * @return LengthAwarePaginator
      */
     public function leaderboard(Room $room)
     {
@@ -113,11 +113,13 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Room  $room
      * @return bool
      */
-    public function destroy($id)
+    public function destroy(Room $room)
     {
-        return false ;
+        $bool = $room->delete();
+        ray($room,$bool);
+        return  $bool;
     }
 }

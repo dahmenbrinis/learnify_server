@@ -12,6 +12,7 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
+        ray($request->validated());
         return $request->validated();
     }
 
