@@ -37,10 +37,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/test', [Controller::class, 'test']);
     Route::post('/vote',[VoteController::class , 'vote']);
     Route::post('/unVote',[VoteController::class , 'unVote']);
+    Route::post('/logout', [AuthController::class, 'signout']);
+
 });
 Route::get('/leaderboard',[Controller::class,'getGlobalLeaderBoard']);
 Route::get('/images/{image}/{alt}', [ImageController::class, 'view']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/logout', [AuthController::class, 'register']);
 

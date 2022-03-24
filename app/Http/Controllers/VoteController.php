@@ -41,9 +41,9 @@ class VoteController extends Controller
     {
         $voteQuery = Auth::user()->votes()->where($request->except('room')) ;
         if($voteQuery->exists()){
-            $vote = $voteQuery->get()->first;
+            $vote = $voteQuery->first();
+            ray('revoking vote :' , $vote);
             undoPoint(new VoteAdded(Room::find($request['room']),$vote));
-            ray('vote revoked');
         }
         return $voteQuery->delete();
     }
