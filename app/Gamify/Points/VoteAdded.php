@@ -2,6 +2,8 @@
 
 namespace App\Gamify\Points;
 
+use App\Models\User;
+use App\Models\Vote;
 use Auth;
 use QCod\Gamify\PointType;
 
@@ -13,24 +15,26 @@ class VoteAdded extends PointType
      * @var int
      */
     public $points = 1;
+    public ?Vote $vote = null ;
 
     /**
      * Point constructor
      *
      * @param $subject
      */
-    public function __construct($subject)
+    public function __construct($subject , Vote $vote)
     {
         $this->subject = $subject;
+        $this->vote = $vote;
     }
 
     /**
      * User who will be receive points
      *
-     * @return mixed
+     * @return User
      */
-    public function payee()
+    public function payee(): User
     {
-        return Auth::user();
+        return $this->vote->votable->user;
     }
 }

@@ -22,9 +22,10 @@ class VoteController extends Controller
     public function vote(AddVoteRequest $request)
     {
         if(Auth::user()->votes()->where($request->except('room'))->doesntExist()){
-            givePoint(new VoteAdded(Room::find($request['room'])));
-            ray(Auth::user()->votes()->make($request->validated()));
-            return Auth::user()->votes()->create($request->validated());
+            $vote = Auth::user()->votes()->create($request->validated());
+            givePoint(new VoteAdded(Room::find($request['room']),$vote));
+            ray($vote , $vote->votable() , $vote->votable);
+            return $vote;
         }
         return null ;
     }
@@ -38,12 +39,13 @@ class VoteController extends Controller
      */
     public function unVote(RemoveVoteRequest $request)
     {
-
-        if(Auth::user()->votes()->where($request->except('room'))->exists()){
-            undoPoint(new VoteAdded(Room::find($request['room'])));
+        $voteQuery = Auth::user()->votes()->where($request->except('room')) ;
+        if($voteQuery->exists()){
+            $vote = $voteQuery->get()->first;
+            undoPoint(new VoteAdded(Room::find($request['room']),$vote));
             ray('vote revoked');
         }
-        return Auth::user()->votes()->where($request->except('room'))->delete();
+        return $voteQuery->delete();
     }
 
 }

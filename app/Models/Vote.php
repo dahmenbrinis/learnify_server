@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property User $user
+ * @property Question|Comment $votable
  */
 class Vote extends Model
 {
