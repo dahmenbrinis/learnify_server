@@ -43,7 +43,7 @@ class Room extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     public function image(): MorphOne
@@ -51,6 +51,15 @@ class Room extends Model
         return $this->morphOne(Image::class, 'imagable');
     }
 
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Question::class,
+            Comment::class,
+            'questions.room_id',
+            'comments.commentable_id',
+        ) ;
+    }
     public function getImageIdAttribute()
     {
         return $this->image->id ?? null;

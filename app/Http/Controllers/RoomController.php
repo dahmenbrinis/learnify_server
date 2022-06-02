@@ -47,7 +47,10 @@ class RoomController extends Controller
         }else{
             $validated['image_name'] = ['biology.png','math.png','computer_science.png'][array_rand([0,1,2])];
         }
-        return Auth::user()->rooms()->create($validated+['creator_id'=>Auth::id()]);
+        $room = Auth::user()->rooms()->create($validated+['creator_id'=>Auth::id()]);
+        Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
+        $room->refresh() ;
+        return $room;
     }
 
     /**
@@ -94,7 +97,11 @@ class RoomController extends Controller
      */
     public function management(Room $room)
     {
-        return $room->users()->where('users.type','=',User::$Student)->paginate();
+        return $room->users()
+            ->where('users.type','=',User::$Student)
+            ->withCount('questions')
+            ->withCount('comments')
+            ->withCount('votes')->paginate();
     }
 
     /**
