@@ -28,6 +28,7 @@ class User extends Authenticatable
     public static int $Teacher = 0;
     public static int $Student = 1;
     public static array $typeNames = [0 => 'Teacher', 1 => 'Student'];
+
     /**
      * The attributes that are mass assignable.
      *

@@ -7,6 +7,7 @@ use App\Http\Requests\LeaveRoomRequest;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -84,6 +85,16 @@ class RoomController extends Controller
     public function leaderboard(Room $room)
     {
         return $room->leaderBoard()->orderByDesc('points')->paginate(200);
+    }
+
+    /**
+     * get list of students who .
+     *
+     * @return LengthAwarePaginator
+     */
+    public function management(Room $room)
+    {
+        return $room->users()->where('users.type','=',User::$Student)->paginate();
     }
 
     /**
