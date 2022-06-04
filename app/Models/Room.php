@@ -83,7 +83,7 @@ class Room extends Model
 
     public function getAnswersCountAttribute(): int
     {
-        return 50;
+        return $this->users()->where('users.type',User::$Student)->count();
     }
 
 

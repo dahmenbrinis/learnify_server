@@ -24,6 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/rooms', RoomController::class);
     Route::post('/join_room/{room}', [RoomController::class, 'join']);
     Route::post('/leave_room/{room}', [RoomController::class, 'leave']);
+    Route::get('/rooms/{room}/kick/{user}', [RoomController::class, 'kick']);
+    Route::get('/rooms/{room}/commend/{user}', [RoomController::class, 'commend']);
     Route::get('/room_leaderboard/{room}', [RoomController::class, 'leaderboard']);
     Route::get('/room_management/{room}', [RoomController::class, 'management']);
     Route::apiResource('/rooms/{room}/questions', QuestionController::class);

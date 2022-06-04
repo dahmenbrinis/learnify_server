@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
@@ -87,7 +88,7 @@ class RoomController extends Controller
      */
     public function leaderboard(Room $room)
     {
-        return $room->leaderBoard()->orderByDesc('points')->paginate(200);
+        return $room->leaderBoard()->orderByDesc('points')->paginate(300);
     }
 
     /**
@@ -97,11 +98,12 @@ class RoomController extends Controller
      */
     public function management(Room $room)
     {
+        if(!Auth::user()->can('update',$room)) return null ;
         return $room->users()
             ->where('users.type','=',User::$Student)
             ->withCount('questions')
             ->withCount('comments')
-            ->withCount('votes')->paginate();
+            ->withCount('votes')->paginate(300);
     }
 
     /**
@@ -126,6 +128,41 @@ class RoomController extends Controller
         Auth::user()->rooms()->detach([$room->id]);
         $room->refresh();
         return $room;
+    }
+    /**
+     * kick a student from the room .
+     *
+     * @return bool
+     */
+    public function kick(Room $room , User $user)
+    {
+        ray('teacher can kick :',Auth::user()->can('update',$room));
+        if(!Auth::user()->can('update',$room)) return false ;
+        $user->rooms()->detach([$room->id]);
+        $room->refresh();
+        return true ;
+    }
+
+    /**
+     * commend a student from the room .
+     *
+     * @return bool
+     */
+    public function commend(Room $room , User $user)
+    {
+        ray('teacher can commend :',$user->badges()->where('name','Recommended')->exists());
+        if(!Auth::user()->can('update',$room)) return false ;
+        if($user->badges()->where('name','Recommended')->exists()) return true;
+        $badge  = $user->badges()->create([
+            'badge_id'=>1,
+            'name'=>'Recommended',
+            'description'=>'This person is recommended by teachers',
+            'level'=>1,
+        ]);
+        ray($badge);
+//        $user->rooms()->detach([$room->id]);
+//        $room->refresh();
+        return true ;
     }
 
     /**

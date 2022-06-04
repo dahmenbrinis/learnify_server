@@ -110,7 +110,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Vote::class);
     }
-
     /**
      * Specifies the user's FCM token
      *
