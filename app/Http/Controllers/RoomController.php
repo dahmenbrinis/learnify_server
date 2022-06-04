@@ -99,8 +99,9 @@ class RoomController extends Controller
     public function management(Room $room)
     {
         if(!Auth::user()->can('update',$room)) return null ;
-        return $room->users()
-            ->where('users.type','=',User::$Student)
+        return $room->users()->orderByDesc('users.type')
+//            ->where('users.type','=',User::$Student)
+            ->where('users.id','<>',Auth::id())
             ->withCount('questions')
             ->withCount('comments')
             ->withCount('votes')->paginate(300);
