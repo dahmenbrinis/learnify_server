@@ -101,6 +101,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function validComments()
+    {
+        return $this->hasMany(Comment::class)->where('comments.isValid' , true);
+    }
+
     public function profileImage(): MorphOne
     {
         return $this->morphOne(Image::class, 'imagable');
