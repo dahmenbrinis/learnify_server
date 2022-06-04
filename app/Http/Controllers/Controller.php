@@ -17,7 +17,7 @@ class Controller extends BaseController
 
     public  function  profile(User $user){
         ray(User::find($user->id)->with('badges'));
-        return User::find($user->id)->with('badges')->get() ;
+        return User::find($user->id)->with('badges')->first() ;
     }
 
     public function updatePoints()
