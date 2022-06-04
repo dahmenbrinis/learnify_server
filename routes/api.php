@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/images', [ImageController::class, 'store']);
     Route::post('/fcm_update', [AuthController::class, 'updateFcmToken']);
     Route::get('/updatePoints',[Controller::class,'updatePoints']);
+    Route::get('/profile/{user}',[Controller::class,'profile']);
     Route::get('/test', [Controller::class, 'test']);
     Route::post('/vote',[VoteController::class , 'vote']);
     Route::post('/unVote',[VoteController::class , 'unVote']);

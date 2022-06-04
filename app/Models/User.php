@@ -62,11 +62,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['imageId','points'];
+    protected $appends = ['imageId','points' , 'isRecommended'];
 
     public function getPointsAttribute()
     {
         return $this->getPoints(true);
+    }
+
+    public function getIsRecommendedAttribute():bool
+    {
+        return $this->badges()->where('name','Recommended')->exists();
     }
 
     public function getImageIdAttribute()

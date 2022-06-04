@@ -15,6 +15,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public  function  profile(User $user){
+        ray(User::find($user->id)->with('badges'));
+        return User::find($user->id)->with('badges')->get() ;
+    }
+
     public function updatePoints()
     {
         return Auth::user()->getPoints(true);
