@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreImageRequest;
 use App\Models\Image;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use LasseRafn\InitialAvatarGenerator\InitialAvatar;
 
@@ -24,12 +25,11 @@ class ImageController extends Controller
     {
         $path = $request->file('image')->store('/', 'images');
         ray($request->safe());
-        return Image::create(
-            array_merge(
-                $request->safe()->except(['image','alt']),
-                ['src' => $path, 'user_id' => auth()->id()]
-            )
-        );
+        $image =  Image::query()->updateOrcreate(
+            $request->safe()->except(['image','alt']),
+            ['src' => $path, 'user_id' => auth()->id()]
+            );
+        return $image ;
     }
 
     private function svg2Image(string $name)
