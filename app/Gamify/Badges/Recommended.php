@@ -21,6 +21,6 @@ class Recommended extends BadgeType
      */
     public function qualifier($user)
     {
-        return $user->getPoints() >= 3000;
+        return $user->getPoints() >= 300000;
     }
 }

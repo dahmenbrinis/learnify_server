@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Gamify\Points\StudentCommendation;
 use App\Http\Requests\JoinRoomRequest;
 use App\Http\Requests\LeaveRoomRequest;
 use App\Http\Requests\StoreRoomRequest;
@@ -160,6 +161,7 @@ class RoomController extends Controller
             'description'=>'This person is recommended by teachers',
             'level'=>1,
         ]);
+        givePoint(new StudentCommendation($room, $user));
         ray($badge);
 //        $user->rooms()->detach([$room->id]);
 //        $room->refresh();
