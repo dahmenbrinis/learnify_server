@@ -44,12 +44,12 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request)
     {
-        $validated = $request->validated();
+        $validated = $request->safe()->except('image');
         if (!isset($validated['image_name'])||$validated['image_name']==null){
             $validated['image_name'] = ['biology.png','math.png','computer_science.png'][array_rand([0,1,2])];
         }
         $room = Auth::user()->rooms()->create($validated+['creator_id'=>Auth::id()]);
-        if (isset($validated['image'])&&$validated['image']!=null){
+        if (isset($request->validated()['image'])&&$request->validated()['image']!=null){
             $path = $request->file('image')->store('/', 'images');
             $image =  Image::query()->create([
                 'src' => $path,
@@ -57,15 +57,15 @@ class RoomController extends Controller
                 'imagable_type'=>Room::class,
                 'imagable_id'=>$room->id,
             ]);
+            ray($image);
         }
         if($request['visibility'] == Room::$PublicRoom){
             $room->update(['code'=>null]);
         }
+
         Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
         $room->refresh() ;
         return $room;
-
-
     }
 
     /**
