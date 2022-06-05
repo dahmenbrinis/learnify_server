@@ -17,7 +17,6 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public  function profile(User $user){
-        ray("the user is ",$user->id,User::query()->where('id','=',$user->id)->get());
         return User::query()
             ->where('users.id','=',$user->id)
             ->with('badges')

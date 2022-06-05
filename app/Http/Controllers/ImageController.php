@@ -23,9 +23,10 @@ class ImageController extends Controller
     public function Store(StoreImageRequest $request)
     {
         $path = $request->file('image')->store('/', 'images');
+        ray($request->safe());
         return Image::create(
             array_merge(
-                $request->safe()->except('image'),
+                $request->safe()->except(['image','alt']),
                 ['src' => $path, 'user_id' => auth()->id()]
             )
         );
