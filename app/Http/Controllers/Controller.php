@@ -42,11 +42,10 @@ class Controller extends BaseController
             'password' => 'required|string|min:6',
             'newPassword' => 'required|string|min:6',
         ]);
-        ray(Hash::make($validated['password']), Auth::user()->getAuthPassword());
-        if(Auth::user()->getAuthPassword() == Hash::make($validated['password'])) {
-            Auth::user()->update(['password'=>$validated['newPassword']]);
+        ray(Hash::make($validated['password']), auth()->user()->password ,Hash::check($validated['password'] ,auth()->user()->password) );
+        if(Hash::check($validated['password'] ,auth()->user()->password) ) {
+            Auth::user()->update(['password'=>Hash::make($validated['password'])]);
             ray('password updated successfully');
-            Auth::attempt(['email'=>Auth::user()->email ,'password'=> Hash::make($validated['newPassword'])]);
             return  Auth::user()->createToken('tokens')->plainTextToken;
         }
         return false;
