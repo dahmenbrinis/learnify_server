@@ -16,7 +16,7 @@ class RoomFactory extends Factory
      */
     public function definition()
     {
-
+        $visibility = array_rand([0,1]) ;
         return [
             'name'=>$this->faker->realText(15),
             'description'=>$this->faker->realText(150),
@@ -24,6 +24,7 @@ class RoomFactory extends Factory
             'level_id'=>$this->faker->randomElement(Level::all()->toArray())['id'],
             'creator_id'=>$this->faker->randomElement(User::all()->toArray())['id'],
             'visibility'=>array_rand([0,1]),
+            'code'=>$visibility==1?null:$this->faker->text(6),
         ];
     }
 }
