@@ -31,7 +31,13 @@ class Room extends Model
     protected $guarded = [];
     protected $hidden = ['creator'];
     protected $appends = ['imageId', 'permissions', 'userCount', 'questionsCount', 'answersCount', 'visibilityName'];
+    public function toArray()
+    {
+        if(!Auth::user()->can('delete' , $this))
+            $this->setHidden(['code']);
 
+        return parent::toArray();
+    }
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
