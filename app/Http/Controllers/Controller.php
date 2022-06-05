@@ -45,7 +45,7 @@ class Controller extends BaseController
         ]);
         ray(Hash::make($validated['password']), auth()->user()->password ,Hash::check($validated['password'] ,auth()->user()->password) );
         if(Hash::check($validated['password'] ,auth()->user()->password) ) {
-            Auth::user()->update(['password'=>Hash::make($validated['password'])]);
+            Auth::user()->update(['password'=>Hash::make($validated['newPassword'])]);
             ray('password updated successfully');
             return  Auth::user()->createToken('tokens')->plainTextToken;
         }
