@@ -16,14 +16,16 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public  function  profile(User $user){
-//        ray(User::find($user->id)->with('badges'));
-        return User::find($user->id)
+    public  function profile(User $user){
+        ray("the user is ",$user->id,User::query()->where('id','=',$user->id)->get());
+        return User::query()
+            ->where('users.id','=',$user->id)
             ->with('badges')
             ->withCount('comments')
             ->withCount('questions')
             ->withCount('rooms')
             ->withCount('validComments')
+            ->withCount('ownedRooms')
             ->first();
     }
 
