@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/rooms', RoomController::class);
+    Route::post('/update_rooms/{room}', [RoomController::class,'update']);
     Route::post('/join_room/{room}', [RoomController::class, 'join']);
     Route::post('/leave_room/{room}', [RoomController::class, 'leave']);
     Route::get('/rooms/{room}/kick/{user}', [RoomController::class, 'kick']);

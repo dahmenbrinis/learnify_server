@@ -88,16 +88,16 @@ class RoomController extends Controller
      */
     public function update(UpdateRoomRequest $request, Room $room)
     {
-        $room->update($request->validated());
-        if (isset($validated['image_name'])&&$validated['image_name']!=null){
-            $path = $request->file('image_name')->store('/', 'images');
-            $image =  Image::query()->updateOrCreate([
-                'src' => $path,
-                'user_id' => auth()->id() ,
-                'imagable_type'=>Room::class,
-                'imagable_id'=>$room->id,
-            ]);
+        $room->update($request->safe()->except('image'));
+        if (isset($request->validated()['image'])&&$request->validated()['image']!=null){
+            $path = $request->file('image')->store('/', 'images');
+            $image =  Image::query()->updateOrCreate(
+                ['imagable_type'=>Room::class, 'imagable_id'=>$room->id],
+                ['src' => $path,'user_id' => auth()->id()]
+            );
+            ray($image);
         }
+
         if($request['visibility'] == Room::$PublicRoom){
             $room->update(['code'=>null]);
         }
