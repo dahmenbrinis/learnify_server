@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property User $creator
  * @property Question $questions
  * @property Collection<User> $users
+ * @property string code
  * @method static find(int $id)
  */
 class Room extends Model

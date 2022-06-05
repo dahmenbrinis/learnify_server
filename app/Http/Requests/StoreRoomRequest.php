@@ -30,7 +30,8 @@ class StoreRoomRequest extends FormRequest
         return [
             'name'=>"required|min:3",
             'description'=>"required|min:10",
-            'image_name'=>"sometimes|nullable|image",
+            'image'=>"sometimes|nullable|image",
+            'code'=>[Rule::requiredIf($this['visibility'] == Room::$PrivateRoom), Rule::unique('rooms','code')],
             'visibility'=>['required',Rule::in(array_keys(Room::$Visibilities))],
             'level_id'=>['required',Rule::exists('levels','id')],
         ];

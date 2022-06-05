@@ -31,6 +31,8 @@ class UpdateRoomRequest extends FormRequest
             'id'=>'required',
             'name'=>"sometimes|min:3",
             'description'=>"sometimes|min:10",
+            'image'=>"sometimes|nullable|image",
+            'code'=>[Rule::requiredIf($this['visibility'] == Room::$PrivateRoom), Rule::unique('rooms','code')],
             'visibility'=>['sometimes',Rule::in(array_keys(Room::$Visibilities))],
             'level_id'=>['sometimes',Rule::exists('levels','id')],
         ];

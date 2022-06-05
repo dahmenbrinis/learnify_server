@@ -17,6 +17,7 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+            $table->string('code')->nullable();
             $table->string('image_name')->default('default.png');
             $table->integer('visibility')->default(0);
             $table->foreignId('level_id')->constrained()->onDelete('cascade');

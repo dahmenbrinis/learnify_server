@@ -7,6 +7,7 @@ use App\Http\Requests\JoinRoomRequest;
 use App\Http\Requests\LeaveRoomRequest;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
+use App\Models\Image;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -44,15 +45,27 @@ class RoomController extends Controller
     public function store(StoreRoomRequest $request)
     {
         $validated = $request->validated();
-        if (isset($validated['image_name'])&&$validated['image_name']!=null){
-//            TODO: implement the file upload.
-        }else{
+        if (!isset($validated['image_name'])||$validated['image_name']==null){
             $validated['image_name'] = ['biology.png','math.png','computer_science.png'][array_rand([0,1,2])];
         }
         $room = Auth::user()->rooms()->create($validated+['creator_id'=>Auth::id()]);
+        if (isset($validated['image'])&&$validated['image']!=null){
+            $path = $request->file('image')->store('/', 'images');
+            $image =  Image::query()->create([
+                'src' => $path,
+                'user_id' => auth()->id() ,
+                'imagable_type'=>Room::class,
+                'imagable_id'=>$room->id,
+            ]);
+        }
+        if($request['visibility'] == Room::$PublicRoom){
+            $room->update(['code'=>null]);
+        }
         Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
         $room->refresh() ;
         return $room;
+
+
     }
 
     /**
@@ -76,6 +89,18 @@ class RoomController extends Controller
     public function update(UpdateRoomRequest $request, Room $room)
     {
         $room->update($request->validated());
+        if (isset($validated['image_name'])&&$validated['image_name']!=null){
+            $path = $request->file('image_name')->store('/', 'images');
+            $image =  Image::query()->updateOrCreate([
+                'src' => $path,
+                'user_id' => auth()->id() ,
+                'imagable_type'=>Room::class,
+                'imagable_id'=>$room->id,
+            ]);
+        }
+        if($request['visibility'] == Room::$PublicRoom){
+            $room->update(['code'=>null]);
+        }
         $room->refresh();
         return $room;
     }
@@ -115,8 +140,14 @@ class RoomController extends Controller
      */
     public function join(JoinRoomRequest $request,Room $room)
     {
+        if(isset($request->validated()['code']) && $room->visibility == Room::$PrivateRoom){
+            if($request->validated()['code']!=$room->code)return null ;
+            Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
+            $room->refresh() ;
+            return $room;
+        }
         Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
-        $room->refresh() ;
+        $room->refresh();
         return $room;
     }
 
