@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'signout']);
 
 });
+Route::get('/profile/{user}',[Controller::class,'profile']);
 Route::get('/leaderboard',[Controller::class,'getGlobalLeaderBoard']);
 Route::get('/images/{image}/{alt}', [ImageController::class, 'view']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');

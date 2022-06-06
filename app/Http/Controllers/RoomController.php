@@ -186,14 +186,14 @@ class RoomController extends Controller
         ray('teacher can commend :',$user->badges()->where('name','Recommended')->exists());
         if(!Auth::user()->can('update',$room)) return false ;
         if($user->badges()->where('name','Recommended')->exists()) return true;
-        $badge  = $user->badges()->create([
-            'badge_id'=>1,
-            'name'=>'Recommended',
-            'description'=>'This person is recommended by teachers',
-            'level'=>1,
-        ]);
+//        $badge  = $user->badges()->create([
+//            'badge_id'=>1,
+//            'name'=>'Recommended',
+//            'description'=>'This person is recommended by teachers',
+//            'level'=>1,
+//        ]);
         givePoint(new StudentCommendation($room, $user));
-        ray($badge);
+//        ray($badge);
 //        $user->rooms()->detach([$room->id]);
 //        $room->refresh();
         return true ;
