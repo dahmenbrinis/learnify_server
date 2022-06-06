@@ -64,7 +64,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['imageId','points' , 'isRecommended'];
+    protected $appends = ['imageId','points' , 'isRecommended','recommendationCount'];
 
     public function getPointsAttribute()
     {
@@ -75,6 +75,11 @@ class User extends Authenticatable
     {
         if(Auth::user()== null ) return  false ;
         return $this->studentCommendation()->where('teacher_id',Auth::id())->exists();
+    }
+
+    public function getRecommendationCountAttribute():int
+    {
+        return $this->studentCommendation()->count();
     }
 
     public function getImageIdAttribute()

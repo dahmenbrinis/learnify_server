@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Room;
 use App\Models\User;
 use App\Models\Vote;
@@ -21,7 +22,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public  function profile(User $user){
-        ray(Badge::all());
+//        ray(Comment::query()->first()->question->comments()->get());
         $user->syncBadges();
         return User::query()
             ->where('users.id','=',$user->id)
@@ -43,7 +44,6 @@ class Controller extends BaseController
             'name' => 'required|string|max:255',
             'email' => 'required|string|email',
         ]);
-        ray($validated);
         Auth::user()->update($validated);
         return true ;
     }
@@ -56,7 +56,6 @@ class Controller extends BaseController
         ray(Hash::make($validated['password']), auth()->user()->password ,Hash::check($validated['password'] ,auth()->user()->password) );
         if(Hash::check($validated['password'] ,auth()->user()->password) ) {
             Auth::user()->update(['password'=>Hash::make($validated['newPassword'])]);
-            ray('password updated successfully');
             return  Auth::user()->createToken('tokens')->plainTextToken;
         }
         return false;

@@ -12,7 +12,7 @@ class Recommended extends BadgeType
      *
      * @var string
      */
-    protected $description = 'This person is recommended by teachers';
+    protected $description = 'get 5 recommendation from teachers';
 
     /**
      * Check is user qualifies for badge
@@ -22,6 +22,6 @@ class Recommended extends BadgeType
      */
     public function qualifier($user)
     {
-        return $user->studentCommendation()->exists();
+        return $user->studentCommendation()->count();
     }
 }

@@ -24,7 +24,6 @@ class ImageController extends Controller
     public function Store(StoreImageRequest $request)
     {
         $path = $request->file('image')->store('/', 'images');
-        ray($request->safe());
         $image =  Image::query()->updateOrcreate(
             $request->safe()->except(['image','alt']),
             ['src' => $path, 'user_id' => auth()->id()]

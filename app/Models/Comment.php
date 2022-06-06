@@ -51,4 +51,7 @@ class Comment extends Model
     {
         return $this->morphMany(Vote::class, 'votable');
     }
+    public function question(){
+        return $this->belongsTo(Question::class,'commentable_id');
+    }
 }

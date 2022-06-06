@@ -12,14 +12,12 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
-        ray($request->validated());
         return $request->validated();
     }
 
     // this method signs out users by removing tokens
     public function signout()
     {
-        ray(auth()->user()->tokens);
         auth()->user()->tokens()->delete();
         return [
             'message' => 'Tokens Revoked'

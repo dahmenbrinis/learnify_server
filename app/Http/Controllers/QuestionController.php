@@ -22,7 +22,6 @@ class QuestionController extends Controller
      */
     public function index(Room $room)
     {
-        ray($room->questions()->with('user')->paginate(12));
         return $room->questions()->with('user')->paginate(12);
     }
     /**
@@ -47,7 +46,6 @@ class QuestionController extends Controller
      */
     public function myQuestions()
     {
-        ray()->models(Auth::user()->questions()->with('user')->paginate(12));
         return Auth::user()->questions()->with('user')->paginate(12);
     }
 
