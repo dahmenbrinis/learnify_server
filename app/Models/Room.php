@@ -35,6 +35,7 @@ class Room extends Model
     {
         if(Auth::user() === null ||!Auth::user()->can('delete' , $this))
             $this->setHidden(['code']);
+
         return parent::toArray();
     }
     public function creator(): BelongsTo
