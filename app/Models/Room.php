@@ -33,9 +33,8 @@ class Room extends Model
     protected $appends = ['imageId', 'permissions', 'userCount', 'questionsCount', 'answersCount', 'visibilityName'];
     public function toArray()
     {
-        if(!Auth::user()->can('delete' , $this))
+        if(Auth::user() === null ||!Auth::user()->can('delete' , $this))
             $this->setHidden(['code']);
-
         return parent::toArray();
     }
     public function creator(): BelongsTo
