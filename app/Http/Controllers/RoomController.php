@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use QCod\Gamify\Badge;
 
 class RoomController extends Controller
 {
@@ -183,15 +184,10 @@ class RoomController extends Controller
      */
     public function commend(Room $room , User $user)
     {
-        ray('teacher can commend :',$user->badges()->where('name','Recommended')->exists());
+        ray(Badge::query()->where('name','Recommended')->first());
         if(!Auth::user()->can('update',$room)) return false ;
-        if($user->badges()->where('name','Recommended')->exists()) return true;
-//        $badge  = $user->badges()->create([
-//            'badge_id'=>1,
-//            'name'=>'Recommended',
-//            'description'=>'This person is recommended by teachers',
-//            'level'=>1,
-//        ]);
+        if($user->studentCommendation()->where('teacher_id',Auth::id())->exists()) return true;
+        $user->studentCommendation()->syncWithoutDetaching(Auth::user());
         givePoint(new StudentCommendation($room, $user));
 //        ray($badge);
 //        $user->rooms()->detach([$room->id]);

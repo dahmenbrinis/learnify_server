@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use QCod\Gamify\Gamify;
 
@@ -72,7 +73,8 @@ class User extends Authenticatable
 
     public function getIsRecommendedAttribute():bool
     {
-        return $this->badges()->where('name','Recommended')->exists();
+        if(Auth::user()== null ) return  false ;
+        return $this->studentCommendation()->where('teacher_id',Auth::id())->exists();
     }
 
     public function getImageIdAttribute()
@@ -113,7 +115,13 @@ class User extends Authenticatable
         return $this->hasMany(Room::class ,'creator_id');
     }
 
+    public function studentCommendation(){
+        return $this->belongsToMany(User::class, 'student_teacher' , 'student_id' , 'teacher_id');
+    }
 
+    public function teacherCommendation(){
+        return $this->belongsToMany(User::class, 'student_teacher' , 'teacher_id' , 'student_id');
+    }
 
 
     public function profileImage(): MorphOne

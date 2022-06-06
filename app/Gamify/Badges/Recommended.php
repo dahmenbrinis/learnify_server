@@ -2,6 +2,7 @@
 
 namespace App\Gamify\Badges;
 
+use App\Models\User;
 use QCod\Gamify\BadgeType;
 
 class Recommended extends BadgeType
@@ -21,6 +22,6 @@ class Recommended extends BadgeType
      */
     public function qualifier($user)
     {
-        return $user->getPoints() >= 300000;
+        return $user->studentCommendation()->exists();
     }
 }

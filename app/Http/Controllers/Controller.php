@@ -5,18 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use App\Models\User;
 use App\Models\Vote;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use QCod\Gamify\Badge;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public  function profile(User $user){
+        ray(Badge::all());
+        $user->syncBadges();
         return User::query()
             ->where('users.id','=',$user->id)
             ->with('badges')
@@ -26,6 +32,10 @@ class Controller extends BaseController
             ->withCount('validComments')
             ->withCount('ownedRooms')
             ->first();
+    }
+
+    public function badgesList(){
+        return Badge::all();
     }
 
     public function updateInformation(Request $request){

@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/fcm_update', [AuthController::class, 'updateFcmToken']);
     Route::get('/updatePoints',[Controller::class,'updatePoints']);
     Route::get('/profile/{user}',[Controller::class,'profile']);
+    Route::get('/badgesList',[Controller::class,'badgesList']);
     Route::post('/profile',[Controller::class,'updateInformation']);
     Route::post('/updatePassword',[Controller::class,'updatePassword']);
     Route::get('/test', [Controller::class, 'test']);
@@ -48,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 Route::get('/profile/{user}',[Controller::class,'profile']);
+Route::get('/badgesList',[Controller::class,'badgesList']);
 Route::get('/leaderboard',[Controller::class,'getGlobalLeaderBoard']);
 Route::get('/images/{image}/{alt}', [ImageController::class, 'view']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
