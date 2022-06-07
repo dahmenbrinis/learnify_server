@@ -17,7 +17,7 @@ class JoinRoomRequest extends FormRequest
     {
         if (!Auth::user()) return false;
         if($this->room->visibility === Room::$PrivateRoom
-            and $this->room->id!==$this->request['code'])
+            and $this->room->code!==$this->request->get('code'))
             return false;
         return true ;
     }

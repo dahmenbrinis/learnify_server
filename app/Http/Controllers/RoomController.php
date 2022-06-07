@@ -26,15 +26,26 @@ class RoomController extends Controller
      *
      * @return LengthAwarePaginator
      */
-    public function index()
+    public function index(Request $request)
     {
+//        ray($request);
+        $search = $request['search'];
         $myRooms =Auth::user()->rooms->pluck('id');
-        return Room::query()
-            ->whereNotIn('id',$myRooms)
-            ->Where('visibility','=',1)
-            ->orWhereIn('id',$myRooms)
-            ->orderByDesc('id')
-            ->paginate(12);
+        $query = Room::query();
+        if(isset($search))
+            $query->where('rooms.name','like',"%$search%")
+                ->orWhere('rooms.description','like',"%$search%");
+        else
+            $query->whereIn('id',$myRooms)
+                ->orWhereNotIn('id',$myRooms)
+                ->orderByDesc('id');
+        return $query->paginate(12);
+//        return Room::query()
+//            ->whereNotIn('id',$myRooms)
+//            ->Where('visibility','=',1)
+//            ->orWhereIn('id',$myRooms)
+//            ->orderByDesc('id')
+//            ->paginate(12);
     }
 
     /**
@@ -141,12 +152,6 @@ class RoomController extends Controller
      */
     public function join(JoinRoomRequest $request,Room $room)
     {
-        if(isset($request->validated()['code']) && $room->visibility == Room::$PrivateRoom){
-            if($request->validated()['code']!=$room->code)return null ;
-            Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
-            $room->refresh() ;
-            return $room;
-        }
         Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
         $room->refresh();
         return $room;
