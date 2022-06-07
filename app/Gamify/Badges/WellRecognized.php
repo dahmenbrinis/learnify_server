@@ -15,7 +15,7 @@ class WellRecognized extends BadgeType
      * @var string
      */
     protected $description = 'make 50 votes';
-    protected $name = 'Well Recognized';
+    protected $name = 'Rockstar';
     protected $level = 3;
     /**
      * Check is user qualifies for badge

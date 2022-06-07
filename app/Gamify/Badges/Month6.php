@@ -13,7 +13,7 @@ class Month6 extends BadgeType
      * @var string
      */
     protected $description = 'member in Learnify for 1 months';
-    protected $name = '6 Months Member';
+    protected $name = '6 Month Member';
     protected $level = 2;
     /**
      * Check is user qualifies for badge
