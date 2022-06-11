@@ -10,6 +10,8 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
+use NotificationChannels\Fcm\Resources\AndroidConfig;
+use NotificationChannels\Fcm\Resources\AndroidMessagePriority;
 
 class NewBadgeReceived extends Notification
 {
@@ -64,7 +66,11 @@ class NewBadgeReceived extends Notification
     public function toFcm($notifiable)
     {
         return FcmMessage::create()
-            ->setData($this->toArray($notifiable));
+            ->setAndroid(
+                AndroidConfig::create()
+                    ->setPriority(AndroidMessagePriority::HIGH())
+                    ->setData($this->toArray($notifiable))
+            );
     }
     /**
      * Get the array representation of the notification.

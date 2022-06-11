@@ -13,6 +13,7 @@ use NotificationChannels\Fcm\FcmMessage;
 use \NotificationChannels\Fcm\Resources;
 use NotificationChannels\Fcm\Resources\AndroidConfig;
 use NotificationChannels\Fcm\Resources\AndroidFcmOptions;
+use NotificationChannels\Fcm\Resources\AndroidMessagePriority;
 use NotificationChannels\Fcm\Resources\AndroidNotification;
 use NotificationChannels\Fcm\Resources\ApnsConfig;
 use NotificationChannels\Fcm\Resources\ApnsFcmOptions;
@@ -70,10 +71,18 @@ class QuestionAdded extends Notification implements ShouldQueue
     public function toFcm($notifiable)
     {
         return FcmMessage::create()
-            ->setData([
-                'title'=>$this->user->name,
-                'body'=>$this->question->description,
-                'type' =>self::class
-            ]);
+            ->setAndroid(
+                AndroidConfig::create()
+                    ->setPriority(AndroidMessagePriority::HIGH())
+                    ->setData($this->toArray($notifiable))
+            );
+    }
+
+    public function toArray(){
+        return [
+            'title'=>$this->user->name,
+            'body'=>$this->question->description,
+            'type' =>self::class
+        ];
     }
 }

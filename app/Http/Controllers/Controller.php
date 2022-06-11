@@ -75,7 +75,7 @@ class Controller extends BaseController
 
     public function getGlobalLeaderBoard()
     {
-        return User::query()->orderByDesc('reputation')->paginate(20);
+        return User::query()->orderByDesc('reputation')->where('users.type',User::$Student)->paginate(20);
     }
 
 
