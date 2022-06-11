@@ -40,7 +40,7 @@ class newSubscriber extends Notification
         return [
 //            'mail' ,
             'database',
-            FcmChannel::class
+//            FcmChannel::class
         ];
     }
 
