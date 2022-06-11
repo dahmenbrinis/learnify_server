@@ -40,7 +40,9 @@ class NewCommentNotification extends Notification
     {
         return [
 //            'mail' ,
-            FcmChannel::class];
+            'database',
+            FcmChannel::class
+            ];
     }
 
     /**
@@ -66,13 +68,18 @@ class NewCommentNotification extends Notification
     public function toFcm($notifiable)
     {
         return FcmMessage::create()
-            ->setData([
-                'title'=>$this->user->name,
-                'body'=>substr($this->comment->body,0,100).'...',
-                'type' =>self::class
-            ]);
+            ->setData($this->toArray($notifiable));
     }
-
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+//    public function toDatabase($notifiable)
+//    {
+//        return $this->toArray($notifiable);
+//    }
     /**
      * Get the array representation of the notification.
      *
@@ -82,7 +89,9 @@ class NewCommentNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'title'=>$this->user->name,
+            'body'=>substr($this->comment->body,0,100).'...',
+            'type' =>self::class
         ];
     }
 }

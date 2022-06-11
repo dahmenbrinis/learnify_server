@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\VoteController;
@@ -38,15 +39,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/images', [ImageController::class, 'store']);
     Route::post('/fcm_update', [AuthController::class, 'updateFcmToken']);
     Route::get('/updatePoints',[Controller::class,'updatePoints']);
-    Route::get('/profile/{user}',[Controller::class,'profile']);
-    Route::get('/badgesList',[Controller::class,'badgesList']);
+//    Route::get('/profile/{user}',[Controller::class,'profile']);
+//    Route::get('/badgesList',[Controller::class,'badgesList']);
     Route::post('/profile',[Controller::class,'updateInformation']);
     Route::post('/updatePassword',[Controller::class,'updatePassword']);
     Route::get('/test', [Controller::class, 'test']);
     Route::post('/vote',[VoteController::class , 'vote']);
     Route::post('/unVote',[VoteController::class , 'unVote']);
     Route::post('/logout', [AuthController::class, 'signout']);
-
+/// for notifications
+    Route::get('/notification/count',[NotificationController::class,'count']);
+    Route::get('/notification/index',[NotificationController::class,'index']);
+    Route::get('/notification/mark_read',[NotificationController::class,'markRead']);
 });
 Route::get('/profile/{user}',[Controller::class,'profile']);
 Route::get('/badgesList',[Controller::class,'badgesList']);

@@ -27,4 +27,4 @@ use Illuminate\Support\Facades\Route;
 //    return 'default route';
 //});
 //Route::post('/api/register', [AuthController::class, 'register']);
-Route::apiResource('/room', RoomController::class );
+//Route::apiResource('/room', RoomController::class );
