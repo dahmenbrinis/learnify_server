@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
 /// for notifications
     Route::get('/notification/count',[NotificationController::class,'count']);
     Route::get('/notification/index',[NotificationController::class,'index']);
-    Route::get('/notification/mark_read',[NotificationController::class,'markRead']);
+    Route::post('/notification/mark_read',[NotificationController::class,'markRead']);
 });
 Route::get('/profile/{user}',[Controller::class,'profile']);
 Route::get('/badgesList',[Controller::class,'badgesList']);

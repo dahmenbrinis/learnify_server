@@ -6,8 +6,12 @@ use App\Gamify\Points\QuestionCreated;
 use App\Gamify\Points\VoteAdded;
 use App\Http\Requests\AddVoteRequest;
 use App\Http\Requests\RemoveVoteRequest;
+use App\Models\Comment;
+use App\Models\Question;
 use App\Models\Room;
 use App\Models\Vote;
+use App\Notifications\CommentVoted;
+use App\Notifications\QuestionVoted;
 use Auth;
 use Illuminate\Http\Response;
 
@@ -23,6 +27,12 @@ class VoteController extends Controller
     {
         if(Auth::user()->votes()->where($request->except('room'))->doesntExist()){
             $vote = Auth::user()->votes()->create($request->validated());
+            if($vote->votable_type == Comment::class ){
+                $vote->votable->user->notify(new CommentVoted($vote->votable));
+            }
+            if($vote->votable_type == Question::class ){
+                $vote->votable->user->notify(new QuestionVoted($vote->votable));
+            }
             givePoint(new VoteAdded(Room::find($request['room']),$vote));
             return $vote;
         }

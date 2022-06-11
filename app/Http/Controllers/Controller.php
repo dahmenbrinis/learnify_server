@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Room;
 use App\Models\User;
 use App\Models\Vote;
+use App\Notifications\NewBadgeReceived;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -23,7 +24,13 @@ class Controller extends BaseController
 
     public  function profile(User $user){
 //        ray(Comment::query()->first()->question->comments()->get());
+        $oldBadges = $user->badges;
         $user->syncBadges();
+        $newBadges = $user->badges()->get()->diff($oldBadges);
+        ray($newBadges , $oldBadges,$user->badges);
+        foreach($newBadges as $badge){
+            $user->notify(new NewBadgeReceived($badge->name));
+        }
         return User::query()
             ->where('users.id','=',$user->id)
             ->with('badges')

@@ -16,7 +16,7 @@ class NotificationController extends Controller
     public function count()
     {
         if(Auth::user()== null) return null ;
-        return Auth::user()->notifications()->count();
+        return Auth::user()->unreadNotifications()->count();
     }
     public function markRead()
     {

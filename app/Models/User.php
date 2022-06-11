@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
+use QCod\Gamify\Badge;
 use QCod\Gamify\Gamify;
 
 /**
@@ -21,6 +22,7 @@ use QCod\Gamify\Gamify;
  * @property int $type
  * @property string $name
  * @property string $fcm_token
+ * @property Badge $badges
  * @method static create(array $attr)
  */
 class User extends Authenticatable

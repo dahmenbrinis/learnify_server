@@ -2,22 +2,30 @@
 
 namespace App\Notifications;
 
+use App\Models\Comment;
+use App\Models\Room;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\Fcm\FcmChannel;
+use NotificationChannels\Fcm\FcmMessage;
 
 class newSubscriber extends Notification
 {
     use Queueable;
-
+    private User $user;
+    private Room $room;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Room $room ,User $user)
     {
+        $this->room = $room;
+        $this->user = $user;
         //
     }
 
@@ -29,7 +37,11 @@ class newSubscriber extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return [
+//            'mail' ,
+            'database',
+            FcmChannel::class
+        ];
     }
 
     /**
@@ -41,11 +53,32 @@ class newSubscriber extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return FcmMessage
+     */
+    public function toFcm($notifiable)
+    {
+        return FcmMessage::create()
+            ->setData($this->toArray($notifiable));
+    }
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+//    public function toDatabase($notifiable)
+//    {
+//        return $this->toArray($notifiable);
+//    }
     /**
      * Get the array representation of the notification.
      *
@@ -55,7 +88,9 @@ class newSubscriber extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'title'=>$this->user->name,
+            'body'=>$this->room->name,
+            'type' =>self::class
         ];
     }
 }

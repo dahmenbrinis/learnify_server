@@ -10,6 +10,8 @@ use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Image;
 use App\Models\Room;
 use App\Models\User;
+use App\Notifications\newSubscriber;
+use App\Notifications\SubscriberLeft;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -154,6 +156,7 @@ class RoomController extends Controller
     {
         Auth::user()->rooms()->syncWithoutDetaching([$room->id]);
         $room->refresh();
+        $room->creator->notify(new newSubscriber($room,Auth::user()));
         return $room;
     }
 
@@ -166,6 +169,7 @@ class RoomController extends Controller
     {
         Auth::user()->rooms()->detach([$room->id]);
         $room->refresh();
+        $room->creator->notify(new SubscriberLeft($room,Auth::user()));
         return $room;
     }
     /**

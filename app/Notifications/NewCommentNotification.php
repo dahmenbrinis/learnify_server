@@ -15,7 +15,6 @@ use NotificationChannels\Fcm\FcmMessage;
 class NewCommentNotification extends Notification
 {
     use Queueable;
-    use Queueable;
     private User $user;
     private Comment $comment;
     /**
@@ -90,7 +89,7 @@ class NewCommentNotification extends Notification
     {
         return [
             'title'=>$this->user->name,
-            'body'=>substr($this->comment->body,0,100).'...',
+            'body'=>$this->comment->body,
             'type' =>self::class
         ];
     }

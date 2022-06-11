@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use App\Notifications\Welcome;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,7 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
+        Auth::user()->notify(new Welcome());
         return $request->validated();
     }
 
@@ -44,6 +46,7 @@ class AuthController extends Controller
         $attr['password'] = Hash::make($attr['password']);
         $user = User::create($attr);
         Auth::attempt($attr);
+        Auth::user()->notify(new Welcome());
         return array_merge($user->toArray(),['token'=>$user->createToken('tokens')->plainTextToken]);
     }
 }
