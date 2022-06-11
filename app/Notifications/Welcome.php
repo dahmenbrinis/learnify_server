@@ -34,7 +34,7 @@ class Welcome extends Notification
         return [
 //            'mail' ,
             'database',
-            FcmChannel::class
+//            FcmChannel::class
         ];
     }
 
