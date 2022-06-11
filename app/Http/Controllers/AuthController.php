@@ -46,7 +46,7 @@ class AuthController extends Controller
         $attr['password'] = Hash::make($attr['password']);
         $user = User::create($attr);
         Auth::attempt($attr);
-        Auth::user()->notify(new Welcome());
+//        Auth::user()->notify(new Welcome());
         return array_merge($user->toArray(),['token'=>$user->createToken('tokens')->plainTextToken]);
     }
 }
