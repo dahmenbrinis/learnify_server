@@ -20,7 +20,7 @@ class AuthController extends Controller
     // this method signs out users by removing tokens
     public function signout()
     {
-        auth()->user()->tokens()->delete();
+//        auth()->user()->tokens()->delete();
         return [
             'message' => 'Tokens Revoked'
         ];
