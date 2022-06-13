@@ -23,7 +23,7 @@ class Champion extends BadgeType
      */
     public function qualifier($user)
     {
-        $champions = User::query()->orderByDesc('reputation')->limit(3)->get();
+        $champions = User::query()->orderByDesc('reputation')->where('users.type',User::$Student)->limit(3)->get();
         return $champions->where('id','=',$user->id)->count()>0;
     }
 }
