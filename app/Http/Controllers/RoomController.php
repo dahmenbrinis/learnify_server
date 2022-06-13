@@ -33,14 +33,14 @@ class RoomController extends Controller
 //        ray($request);
         $search = $request['search'];
         $myRooms =Auth::user()->rooms->pluck('id');
-        $query = Room::query();
+        $query = Room::query()->with('creator');
         if(isset($search))
             $query->where('rooms.name','like',"%$search%")
                 ->orWhere('rooms.description','like',"%$search%");
         else
-            $query->whereIn('id',$myRooms)
-                ->orWhereNotIn('id',$myRooms)
-                ->orderByDesc('id');
+            $query->whereIn('rooms.id',$myRooms)
+                ->orWhereNotIn('rooms.id',$myRooms)
+                ->orderByDesc('rooms.id');
         return $query->paginate(12);
 //        return Room::query()
 //            ->whereNotIn('id',$myRooms)
