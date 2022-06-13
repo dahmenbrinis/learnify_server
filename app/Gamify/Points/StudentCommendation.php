@@ -13,7 +13,7 @@ class StudentCommendation extends PointType
      *
      * @var int
      */
-    public $points = 30;
+    public $points = 7;
     public $user ;
     public $allowDuplicates = false;
 
