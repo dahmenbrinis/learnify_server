@@ -13,7 +13,7 @@ class Expert extends BadgeType
      */
     protected $description = 'have more than 5 badges';
     protected $name = 'The Expert';
-    protected $rank = 4;
+    protected $level = 4;
 
 
     /**

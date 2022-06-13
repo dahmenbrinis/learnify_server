@@ -13,7 +13,7 @@ class Recommended extends BadgeType
      * @var string
      */
     protected $description = 'get 5 recommendation from teachers';
-
+    protected $level = 2;
     /**
      * Check is user qualifies for badge
      *
