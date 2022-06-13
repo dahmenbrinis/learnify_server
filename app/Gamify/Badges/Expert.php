@@ -11,7 +11,7 @@ class Expert extends BadgeType
      *
      * @var string
      */
-    protected $description = 'have more than 5 badges';
+    protected $description = 'have more than 8 badges';
     protected $name = 'The Expert';
     protected $level = 4;
 
@@ -24,6 +24,6 @@ class Expert extends BadgeType
      */
     public function qualifier($user)
     {
-        return $user->badges()->count()>=200;
+        return $user->badges()->count()>=8;
     }
 }
