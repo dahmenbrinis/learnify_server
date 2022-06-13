@@ -22,6 +22,6 @@ class Recommended extends BadgeType
      */
     public function qualifier($user)
     {
-        return $user->studentCommendation()->count();
+        return $user->studentCommendation()->count()>5;
     }
 }
