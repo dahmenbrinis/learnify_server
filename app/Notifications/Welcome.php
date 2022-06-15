@@ -8,6 +8,13 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
+use \NotificationChannels\Fcm\Resources;
+use NotificationChannels\Fcm\Resources\AndroidConfig;
+use NotificationChannels\Fcm\Resources\AndroidFcmOptions;
+use NotificationChannels\Fcm\Resources\AndroidMessagePriority;
+use NotificationChannels\Fcm\Resources\AndroidNotification;
+use NotificationChannels\Fcm\Resources\ApnsConfig;
+use NotificationChannels\Fcm\Resources\ApnsFcmOptions;
 
 class Welcome extends Notification
 {

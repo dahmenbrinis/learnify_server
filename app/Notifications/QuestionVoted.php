@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 use NotificationChannels\Fcm\Resources\AndroidConfig;
-
+use NotificationChannels\Fcm\Resources\AndroidMessagePriority;
 class QuestionVoted extends Notification
 {
     use Queueable;
